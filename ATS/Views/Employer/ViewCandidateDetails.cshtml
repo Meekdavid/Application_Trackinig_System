@@ -1,0 +1,100 @@
+﻿@model Application
+
+@{
+    ViewBag.Title = "Candidate Details";
+}
+
+<h2 class="text-center mb-4">Candidate Details</h2>
+
+<div class="card mb-4">
+    <div class="card-header">
+        <h4>@Model.Candidate.FullName</h4>
+    </div>
+    <div class="card-body">
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <p><strong>Email:</strong> @Model.Candidate.Email</p>
+                <p><strong>Phone Number:</strong> @Model.Candidate.PhoneNumber</p>
+            </div>
+            <div class="col-md-6">
+                <p><strong>Address:</strong> @Model.Candidate.Address</p>
+            </div>
+        </div>
+
+        <hr />
+        <h5>Education</h5>
+        @if (Model.Candidate.Educations != null && Model.Candidate.Educations.Any())
+        {
+            <ul>
+                @foreach (var education in Model.Candidate.Educations)
+                {
+                    <li>@education.Degree from @education.Institution ( @education.StartDate.ToShortDateString() - @(education.EndDate.ToShortDateString() ?? "Present") )</li>
+                }
+            </ul>
+        }
+        else
+        {
+            <p>No education details available.</p>
+        }
+
+        <hr />
+        <h5>Experience</h5>
+        @if (Model.Candidate.Experiences != null && Model.Candidate.Experiences.Any())
+        {
+            <ul>
+                @foreach (var experience in Model.Candidate.Experiences)
+                {
+                    <li>@experience.Position at @experience.Company ( @experience.StartDate.ToShortDateString() - @(experience.EndDate.ToShortDateString() ?? "Present") )</li>
+                }
+            </ul>
+        }
+        else
+        {
+            <p>No experience details available.</p>
+        }
+
+        <hr />
+        <h5>Job Post Details</h5>
+        <p><strong>Job Title:</strong> @Model.JobPost.JobTitle</p>
+        <p><strong>Location:</strong> @Model.JobPost.Location</p>
+        <p><strong>Salary:</strong> @Model.JobPost.Salary</p>
+        <p><strong>Responsibilities:</strong> @Model.JobPost.Responsibilities</p>
+        <hr />
+        <h5>Application Details</h5>
+        <p><strong>Application Date:</strong> @Model.Candidate.RegistrationDate.ToShortDateString()</p>
+        <a href="@Url.Action("ViewResume", "Recruiter", new { id = Model.ApplicationId })" class="btn btn-primary">View Resume</a>
+    </div>
+</div>
+
+<div class="mt-4">
+    <a href="@Url.Action("Dashboard", "Employer")" class="btn btn-secondary">Back to Dashboard</a>
+</div>
+
+@section Scripts {
+    <script>
+        // JavaScript for any dynamic functionality can go here
+    </script>
+}
+
+<style>
+    /* Custom CSS for Candidate Details */
+    .card {
+        margin: 20px auto;
+        max-width: 800px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .card-header {
+        background-color: #007bff;
+        color: white;
+        padding: 10px 20px;
+    }
+
+    .card-body {
+        padding: 20px;
+    }
+
+    .btn-primary, .btn-secondary {
+        margin-right: 10px;
+    }
+</style>

@@ -1,0 +1,23 @@
+﻿@model ApplicationViewModel
+
+@{
+    ViewData["Title"] = "Apply";
+}
+
+<h2>Apply for @Model.JobTitle</h2>
+
+<form asp-action="Apply" method="post" enctype="multipart/form-data">
+    <input type="hidden" asp-for="JobPostId" />
+    @for (int i = 0; i < Model.R1CheckQuestions.Count; i++)
+    {
+        <div class="form-group">
+            <label>@Model.R1CheckQuestions[i]</label>
+            <input type="checkbox" name="R1Response@(i+1)" class="form-control" />
+        </div>
+    }
+    <div class="form-group">
+        <label for="resumeFile">Upload Resume</label>
+        <input type="file" name="resumeFile" class="form-control" />
+    </div>
+    <button type="submit" class="btn btn-primary">Apply</button>
+</form>

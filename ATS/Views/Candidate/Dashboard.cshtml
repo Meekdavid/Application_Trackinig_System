@@ -1,0 +1,163 @@
+﻿@model ATS.Models.CandidateDashboardViewModel
+
+@{
+    Layout = null;
+    ViewBag.Title = "Candidate Dashboard";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+
+        .dashboard-header {
+            background-color: #007bff;
+            color: #fff;
+            padding: 20px;
+        }
+
+        .profile-info {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .profile-picture {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 10px;
+        }
+
+        .job-details {
+            padding: 15px;
+            border-bottom: 1px solid #dee2e6;
+        }
+
+            .job-details:last-child {
+                border-bottom: none;
+            }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">ATS</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fas fa-user"></i> Account
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="#">Settings</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="@Url.Action("Logout", "Account")">Logout</a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-md-8 mx-auto">
+                <div class="dashboard-header text-center">
+                    <h2>Welcome, @Model.Profile.FullName</h2>
+                    <div class="profile-info">
+                        @if (Model.Profile.ProfilePictureBase64 != null)
+                        {
+                            <img src="@Model.Profile.ProfilePictureBase64" alt="Profile Picture" class="profile-picture animate__animated animate__fadeIn">
+                        }
+                        <p class="mb-0">Candidate ID: @Model.Profile.Email</p>
+                    </div>
+                </div>
+
+                <div class="card mt-4 animate__animated animate__fadeIn">
+                    <div class="card-header">
+                        <h3>Available Jobs</h3>
+                    </div>
+                    <div class="card-body">
+                        @if (@Model.AvailableJobs.Count() > 0)
+                        {
+                            @foreach (var job in Model.AvailableJobs)
+                            {
+                                <div class="job-details">
+                                    <div class="card mb-4 shadow-sm" style="transition: transform 0.3s ease-in-out;">
+                                        <div class="card-body">
+                                            <h5 class="card-title">@job.JobTitle</h5>
+                                            <p class="card-text">@job.Description</p>
+                                            <p class="card-text"><small class="text-muted">Posted on @job.DateCreated.ToString("MMMM dd, yyyy")</small></p>
+                                            <a href="@Url.Action("JobDetails", "Candidate", new { id = job.JobPostId })" class="btn btn-primary">View Details</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        }
+                        else
+                        {
+                            <h5>No Jobs Available</h5>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(function () {
+        @if (TempData["Success"] != null)
+        {
+            <text>
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Success',
+                        text: '@TempData["Success"]',
+                        showConfirmButton: false,
+                        timer: 3000
+                    });
+            </text>
+        }
+
+        @if (TempData["Error"] != null)
+        {
+            <text>
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: '@TempData["Error"]',
+                        showConfirmButton: true
+                    });
+            </text>
+        }
+
+                // Filtering matching jobs
+                $('#jobFilter').on('keyup', function () {
+                    var filter = $(this).val().toLowerCase();
+                    $('.list-group-item').each(function () {
+                        var title = $(this).find('a').text().toLowerCase();
+                        if (title.includes(filter)) {
+                            $(this).show();
+                        } else {
+                            $(this).hide();
+                        }
+                    });
+                });
+        });
+    </script>
+</body>
+</html>

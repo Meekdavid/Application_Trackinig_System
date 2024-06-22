@@ -1,0 +1,141 @@
+is_global = true
+build_property.TargetFramework = net7.0
+build_property.TargetPlatformMinVersion = 
+build_property.UsingMicrosoftNETSdkWeb = true
+build_property.ProjectTypeGuids = 
+build_property.InvariantGlobalization = 
+build_property.PlatformNeutralAssembly = 
+build_property.EnforceExtendedAnalyzerRules = 
+build_property._SupportedPlatformList = Linux,macOS,Windows
+build_property.RootNamespace = ATS
+build_property.RootNamespace = ATS
+build_property.ProjectDir = C:\Users\David Mboko\Desktop\Git\ApplicationTracker\ATS\
+build_property.RazorLangVersion = 7.0
+build_property.SupportLocalizedComponentNames = 
+build_property.GenerateRazorMetadataSourceChecksumAttributes = 
+build_property.MSBuildProjectDirectory = C:\Users\David Mboko\Desktop\Git\ApplicationTracker\ATS
+build_property._RazorSourceGeneratorDebug = 
+
+[C:/Users/David Mboko/Desktop/Git/ApplicationTracker/ATS/Views/Account/Login.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxMb2dpbi5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/David Mboko/Desktop/Git/ApplicationTracker/ATS/Views/Account/Profile.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxQcm9maWxlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/David Mboko/Desktop/Git/ApplicationTracker/ATS/Views/Account/Register.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxSZWdpc3Rlci5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/David Mboko/Desktop/Git/ApplicationTracker/ATS/Views/Application/Apply.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXBwbGljYXRpb25cQXBwbHkuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/David Mboko/Desktop/Git/ApplicationTracker/ATS/Views/Candidate/Apply.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2FuZGlkYXRlXEFwcGx5LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/David Mboko/Desktop/Git/ApplicationTracker/ATS/Views/Candidate/Dashboard.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2FuZGlkYXRlXERhc2hib2FyZC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/David Mboko/Desktop/Git/ApplicationTracker/ATS/Views/Candidate/JobDetails.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2FuZGlkYXRlXEpvYkRldGFpbHMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/David Mboko/Desktop/Git/ApplicationTracker/ATS/Views/Coordinator/AssignRecruiter.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ29vcmRpbmF0b3JcQXNzaWduUmVjcnVpdGVyLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/David Mboko/Desktop/Git/ApplicationTracker/ATS/Views/Coordinator/Dashboard.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ29vcmRpbmF0b3JcRGFzaGJvYXJkLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/David Mboko/Desktop/Git/ApplicationTracker/ATS/Views/Coordinator/ViewAllJobs.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ29vcmRpbmF0b3JcVmlld0FsbEpvYnMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/David Mboko/Desktop/Git/ApplicationTracker/ATS/Views/Employer/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRW1wbG95ZXJcQ3JlYXRlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/David Mboko/Desktop/Git/ApplicationTracker/ATS/Views/Employer/Dashboard.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRW1wbG95ZXJcRGFzaGJvYXJkLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/David Mboko/Desktop/Git/ApplicationTracker/ATS/Views/Employer/Profile.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRW1wbG95ZXJcUHJvZmlsZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/David Mboko/Desktop/Git/ApplicationTracker/ATS/Views/Employer/ShortlistedCandidates.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRW1wbG95ZXJcU2hvcnRsaXN0ZWRDYW5kaWRhdGVzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/David Mboko/Desktop/Git/ApplicationTracker/ATS/Views/Employer/ViewCandidateDetails.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRW1wbG95ZXJcVmlld0NhbmRpZGF0ZURldGFpbHMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/David Mboko/Desktop/Git/ApplicationTracker/ATS/Views/Home/DeleteLater.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxEZWxldGVMYXRlci5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/David Mboko/Desktop/Git/ApplicationTracker/ATS/Views/Home/Error.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxFcnJvci5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/David Mboko/Desktop/Git/ApplicationTracker/ATS/Views/Home/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/David Mboko/Desktop/Git/ApplicationTracker/ATS/Views/Home/Privacy.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxQcml2YWN5LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/David Mboko/Desktop/Git/ApplicationTracker/ATS/Views/JobPost/Apply.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSm9iUG9zdFxBcHBseS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/David Mboko/Desktop/Git/ApplicationTracker/ATS/Views/JobPost/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSm9iUG9zdFxDcmVhdGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/David Mboko/Desktop/Git/ApplicationTracker/ATS/Views/JobPost/Dashboard.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSm9iUG9zdFxEYXNoYm9hcmQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/David Mboko/Desktop/Git/ApplicationTracker/ATS/Views/JobPost/RecruiterDashboard.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSm9iUG9zdFxSZWNydWl0ZXJEYXNoYm9hcmQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/David Mboko/Desktop/Git/ApplicationTracker/ATS/Views/JobPost/ReviewApplications.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSm9iUG9zdFxSZXZpZXdBcHBsaWNhdGlvbnMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/David Mboko/Desktop/Git/ApplicationTracker/ATS/Views/Recruiter/Dashboard.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVjcnVpdGVyXERhc2hib2FyZC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/David Mboko/Desktop/Git/ApplicationTracker/ATS/Views/Recruiter/ReviewApplication.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVjcnVpdGVyXFJldmlld0FwcGxpY2F0aW9uLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/David Mboko/Desktop/Git/ApplicationTracker/ATS/Views/Shared/Error.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXEVycm9yLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/David Mboko/Desktop/Git/ApplicationTracker/ATS/Views/Shared/_ValidationScriptsPartial.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/David Mboko/Desktop/Git/ApplicationTracker/ATS/Views/_ViewImports.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/David Mboko/Desktop/Git/ApplicationTracker/ATS/Views/_ViewStart.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdTdGFydC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/David Mboko/Desktop/Git/ApplicationTracker/ATS/Views/Shared/_Layout.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = b-7x68zdv4ie

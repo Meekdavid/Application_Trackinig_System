@@ -1,0 +1,69 @@
+﻿@model ATS.Models.ReviewApplicationViewModel
+
+@{
+    ViewBag.Title = "Review Application";
+}
+
+<h2 class="text-center mb-4">Review Application</h2>
+
+<div class="container">
+    <div class="card">
+        <div class="card-body">
+            <h3 class="card-title">R2 Questions</h3>
+
+            @if (Model.R2Questions != null && Model.R2Questions.Any())
+            {
+                <form id="reviewForm" asp-action="ReviewApplication" asp-controller="Recruiter" method="post">
+                    @Html.AntiForgeryToken()
+
+                    @for (int i = 0; i < Model.R2Questions.Count; i++)
+                    {
+                        <div class="form-group">
+                            <label class="form-label">@Model.R2Questions[i].Question</label>
+                            <textarea class="form-control" asp-for="R2Responses[i].Response" rows="3" placeholder="Enter response"></textarea>
+                            @Html.HiddenFor(m => m.R2Responses[i].Id)
+                            @Html.HiddenFor(m => m.R2Responses[i].Question)
+                            @Html.HiddenFor(m => m.R2Responses[i].ApplicationId)
+                            @Html.ValidationMessageFor(m => m.R2Responses[i].Response, "", new { @class = "text-danger" })
+                        </div>
+                    }
+
+                    <div class="form-group text-center">
+                        <button type="submit" class="btn btn-primary">Submit Review</button>
+                        <a asp-action="Dashboard" asp-controller="Recruiter" class="btn btn-secondary ml-2">Back to Dashboard</a>
+                    </div>
+                </form>
+            }
+            else
+            {
+                <p>No R2 questions found for this application.</p>
+            }
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            // Client-side validation for radio buttons (at least one option must be selected)
+            $('#reviewForm').submit(function (event) {
+                var valid = true;
+                $('textarea').each(function () {
+                    if ($(this).val().trim() === '') {
+                        valid = false;
+                        return false;
+                    }
+                });
+
+                if (!valid) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'Please provide a response for each question.'
+                    });
+                    event.preventDefault();
+                }
+            });
+        });
+    </script>
+}

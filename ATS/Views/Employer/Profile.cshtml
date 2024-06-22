@@ -1,0 +1,73 @@
+﻿@model ATS.Models.ApplicationUser
+
+@{
+    ViewData["Title"] = "Employer Profile";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container mt-5">
+    <div class="card">
+        <div class="card-header bg-primary text-white">
+            <h4 class="mb-0">Employer Profile</h4>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="card mb-4 shadow-sm">
+                        <div class="card-body">
+                            <h5 class="card-title">@Html.DisplayFor(model => model.FullName)</h5>
+                            <p class="card-text"><strong>Email:</strong> @Html.DisplayFor(model => model.Email)</p>
+                            <p class="card-text"><strong>Phone:</strong> @Html.DisplayFor(model => model.PhoneNumber)</p>
+                            <p class="card-text"><strong>Company:</strong> @Html.DisplayFor(model => model.CompanyName)</p>
+                            <p class="card-text"><strong>Industry:</strong> @Html.DisplayFor(model => model.Industry)</p>
+                            <a href="@Url.Action("EditProfile", "Account")" class="btn btn-primary">Edit Profile</a>
+                            <button class="btn btn-secondary mt-2" onclick="goBack()">Back</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-8">
+                    <div class="card">
+                        <div class="card-header bg-secondary text-white">
+                            <h5 class="mb-0">Job Posts</h5>
+                        </div>
+                        <ul class="list-group list-group-flush">
+                            @foreach (var jobPost in Model.JobPosts)
+                            {
+                                <li class="list-group-item">
+                                    <h5>@Html.DisplayFor(j => jobPost.JobTitle)</h5>
+                                    <p class="mb-1">@Html.DisplayFor(j => jobPost.Description)</p>
+                                    <div><strong>Location:</strong> @Html.DisplayFor(j => jobPost.Location)</div>
+                                    <div><strong>Salary:</strong> @Html.DisplayFor(j => jobPost.Salary)</div>
+                                    <div><strong>Posted:</strong> @Html.DisplayFor(j => jobPost.DateCreated.ToString("MMM dd, yyyy"))</div>
+                                    <a href="@Url.Action("Dashboard", "JobPost", new { id = jobPost.JobPostId })" class="btn btn-primary mt-2">View Details</a>
+                                </li>
+                            }
+                            @if (!Model.JobPosts.Any())
+                            {
+                                <li class="list-group-item text-muted">No job posts found.</li>
+                            }
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        function goBack() {
+            window.history.back();
+        }
+
+        $(document).ready(function () {
+            $('.card').hover(
+                function () {
+                    $(this).addClass('shadow-lg').css('cursor', 'pointer');
+                }, function () {
+                    $(this).removeClass('shadow-lg');
+                }
+            );
+        });
+    </script>
+}

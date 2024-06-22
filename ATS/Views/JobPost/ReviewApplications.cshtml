@@ -1,0 +1,43 @@
+﻿@model IEnumerable<Application>
+
+@{
+    ViewData["Title"] = "Review Applications";
+}
+
+<h2>Review Applications</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Candidate Name</th>
+            <th>Phone Number</th>
+            <th>Resume</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var application in Model)
+        {
+            <tr>
+                <td>@application.Candidate.FullName</td>
+                <td>@application.Candidate.PhoneNumber</td>
+                <td>
+                    <a href="data:application/pdf;base64,@application.ResumeBase64" target="_blank">View Resume</a>
+                </td>
+                <td>
+                    @if (!application.IsShortlisted)
+                    {
+                        <form asp-action="ShortlistApplication" method="post" style="display:inline">
+                            <input type="hidden" name="applicationId" value="@application.ApplicationId" />
+                            <button type="submit" class="btn btn-success">Shortlist</button>
+                        </form>
+                    }
+                    else
+                    {
+                        <span class="badge badge-success">Shortlisted</span>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

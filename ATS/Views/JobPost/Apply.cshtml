@@ -1,0 +1,43 @@
+﻿@model ApplicationViewModel
+
+@{
+    ViewData["Title"] = "Apply for Job";
+}
+
+<h2>Apply for @Model.JobTitle</h2>
+
+<form asp-action="Apply" method="post" enctype="multipart/form-data">
+    <input type="hidden" asp-for="JobPostId" />
+    <div class="form-group">
+        <label asp-for="Resume"></label>
+        <input asp-for="Resume" class="form-control-file" type="file" />
+        <span asp-validation-for="Resume" class="text-danger"></span>
+    </div>
+    @* R1 Check questions *@
+    <div class="form-group">
+        <label asp-for="R1Response1"></label>
+        <input asp-for="R1Response1" class="form-control" />
+        <span asp-validation-for="R1Response1" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="R1Response2"></label>
+        <input asp-for="R1Response2" class="form-control" />
+        <span asp-validation-for="R1Response2" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="R1Response3"></label>
+        <input asp-for="R1Response3" class="form-control" />
+        <span asp-validation-for="R1Response3" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="R1Response4"></label>
+        <input asp-for="R1Response4" class="form-control" />
+        <span asp-validation-for="R1Response4" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="R1Response5"></label>
+        <input asp-for="R1Response5" class="form-control" />
+        <span asp-validation-for="R1Response5" class="text-danger"></span>
+    </div>
+    <button type="submit" class="btn btn-primary">Apply</button>
+</form>

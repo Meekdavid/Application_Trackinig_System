@@ -1,0 +1,251 @@
+﻿@model ATS.Models.CandidateDashboardViewModel
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="container mt-5">
+    <div class="jumbotron text-center">
+        <h1 class="display-4">Welcome to the Applicant Tracking System</h1>
+        <p class="lead">Manage job postings, receive applications, and create a seamless hiring workflow.</p>
+        <hr class="my-4">
+        <p>Get started by exploring the features below.</p>
+
+        @if (!User.Identity.IsAuthenticated)
+        {
+            <div class="row justify-content-center my-5">
+                <div class="col-md-6">
+                    <div class="card shadow-lg p-3 mb-5 bg-white rounded">
+                        <div class="card-body text-center">
+                            <h2 class="card-title mb-4">Join Us Today</h2>
+                            <p class="card-text">Create an account to start managing job postings, applications, and more. Already have an account? Log in to access your profile.</p>
+                            <a class="btn btn-primary btn-lg mx-2" href="@Url.Action("Register", "Account")" role="button">Register</a>
+                            <a class="btn btn-secondary btn-lg mx-2" href="@Url.Action("Login", "Account")" role="button">Login</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+
+        @if (User.IsInRole("Coordinator"))
+        {
+            @*<div class="coordinator-section text-center">
+        @*<h2 class="my-4">Coordinator Dashboard</h2>*@
+            @*<a class="btn btn-primary btn-lg mx-2" href="@Url.Action("AssignRecruiter", "JobPost")" role="button">Manage Workflow</a>
+        <a class="btn btn-primary btn-lg mx-2" href="@Url.Action("ViewAllJobs", "Coordinator")" role="button">View Job Posts</a>
+        </div>*@
+        }
+        else if (User.IsInRole("Recruiter"))
+        {
+            <a class="btn btn-secondary btn-lg mx-2" href="@Url.Action("Dashboard", "Recruiter")" role="button">Review Applications</a>
+        }
+        else if (User.IsInRole("Employer"))
+        {
+            @*<a class="btn btn-primary btn-lg mx-2" href="@Url.Action("Create", "Employer")" role="button">Create Job Post</a>*@
+
+            <br />
+            <div class="row justify-content-center">
+                <div class="col-md-4">
+                    <div class="card mb-4 shadow-sm coordinator-card" style="transition: transform 0.3s ease-in-out;">
+                        <img src="~/images/job-postings.jpg" class="card-img-top img-fluid" alt="Job Postings" style="object-fit: cover; height: 200px;">
+                        <div class="card-body">
+                            <h5 class="card-title">Create new Job</h5>
+                            <p class="card-text">Create new jobs for applicants</p>
+                            <a href="@Url.Action("Create", "Employer")" class="btn btn-primary btn-block">Create a Job</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card mb-4 shadow-sm coordinator-card" style="transition: transform 0.3s ease-in-out;">
+                        <img src="~/images/applications.jpg" class="card-img-top img-fluid" alt="Applications" style="object-fit: cover; height: 200px;">
+                        <div class="card-body">
+                            <h5 class="card-title">View Applications</h5>
+                            <p class="card-text">View Applicants Registered for your Jobs</p>
+                            <a href="@Url.Action("Dashboard", "Employer", new { id = Model.Profile.Id })" class="btn btn-primary btn-block">View Applicants</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+
+    @if (User.IsInRole("Coordinator"))
+    {
+        @*<br />*@
+        <br />
+        <div class="row justify-content-center">
+            <div class="col-md-4">
+                <div class="card mb-4 shadow-sm coordinator-card" style="transition: transform 0.3s ease-in-out;">
+                    <img src="~/images/job-postings.jpg" class="card-img-top img-fluid" alt="Job Postings" style="object-fit: cover; height: 200px;">
+                    <div class="card-body">
+                        <h5 class="card-title">All Jobs</h5>
+                        <p class="card-text">View All Job Posts</p>
+                        <a href="@Url.Action("ViewAllJobs", "Coordinator")" class="btn btn-primary btn-block">View All Posts</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card mb-4 shadow-sm coordinator-card" style="transition: transform 0.3s ease-in-out;">
+                    <img src="~/images/applications.jpg" class="card-img-top img-fluid" alt="Applications" style="object-fit: cover; height: 200px;">
+                    <div class="card-body">
+                        <h5 class="card-title">Unapproved Job Posts</h5>
+                        <p class="card-text">Assign Recruiters and Create R2 Forms</p>
+                        <a href="@Url.Action("Dashboard", "Coordinator")" class="btn btn-primary btn-block">View Unapproved Jobs</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+
+    @if (User.IsInRole("Candidate"))
+    {
+        <div class="row">
+            <a class="btn btn-primary btn-lg mx-2" href="@Url.Action("Dashboard", "Candidate")" role="button">Open Dashboard</a>
+
+            @if (Model.AvailableJobs.Count() > 0)
+            {
+                <h2 class="my-4">Available Job Listings</h2>
+                @foreach (var job in Model.AvailableJobs)
+                {
+                    <div class="col-md-4">
+                        <div class="card mb-4 shadow-sm" style="transition: transform 0.3s ease-in-out;">
+                            <div class="card-body">
+                                <h5 class="card-title">@job.JobTitle</h5>
+                                <p class="card-text">@job.Description</p>
+                                <p class="card-text"><small class="text-muted">Posted on @job.DateCreated.ToString("MMMM dd, yyyy")</small></p>
+                                <a href="@Url.Action("JobDetails", "Candidate", new { id = job.JobPostId })" class="btn btn-primary">View Details</a>
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+            else
+            {
+                <h5>No Jobs Available</h5>
+            }
+
+        </div>
+    }
+</div>
+
+<div id="spinner" style="display: none;">
+    <div class="spinner-icon">
+        <i class="fas fa-spinner fa-spin fa-3x"></i> <!-- Font Awesome spinner icon -->
+    </div>
+</div>
+
+<style>
+    /* Spinner CSS */
+    #spinner {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 9999; /* Ensure it's above everything else */
+        background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent white background */
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); /* Optional: Box shadow for a nicer effect */
+    }
+
+    .spinner-icon {
+        text-align: center;
+    }
+
+    .coordinator-section {
+        margin-top: 20px;
+        padding: 20px;
+        background-color: #e9ecef;
+        border-radius: 10px;
+    }
+
+    .coordinator-card {
+        transition: transform 0.3s ease-in-out;
+    }
+</style>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            // Card hover effect
+            $('.card').hover(
+                function () {
+                    $(this).addClass('shadow-lg').css('transform', 'scale(1.05)').css('cursor', 'pointer');
+                }, function () {
+                    $(this).removeClass('shadow-lg').css('transform', 'scale(1)');
+                }
+            );
+
+            // Function to show spinner
+            function showSpinner() {
+                $('#spinner').fadeIn();
+            }
+
+            // Function to hide spinner
+            function hideSpinner() {
+                $('#spinner').fadeOut();
+            }
+
+            //Show spinner on form submission
+            $('form').submit(function () {
+                showSpinner();
+            });
+
+        @if (TempData["Success"] != null)
+        {
+            <text>
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Success',
+                        text: '@TempData["Success"]',
+                        showConfirmButton: false,
+                        timer: 3000
+                    });
+            </text>
+            TempData["Success"] = null;
+        }
+
+        @if (TempData["Error"] != null)
+        {
+            <text>
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: '@TempData["Error"]',
+                        showConfirmButton: true
+                    });
+            </text>
+            TempData["Error"] = null;
+        }
+
+                //Show spinner on AJAX request
+                $.ajax({
+                    url: '/Account/Register',
+                    type: 'GET',
+                    beforeSend: function () {
+                        showSpinner();
+                    },
+                    success: function (response) {
+
+                    },
+                    complete: function () {
+                        hideSpinner();
+                    }
+                });
+
+            $.ajax({
+                url: '/Account/Login',
+                type: 'GET',
+                beforeSend: function () {
+                    showSpinner();
+                },
+                success: function (response) {
+
+                },
+                complete: function () {
+                    hideSpinner();
+                }
+            });
+        });
+    </script>
+}

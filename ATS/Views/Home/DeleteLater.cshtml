@@ -1,0 +1,360 @@
+﻿@model RegisterViewModel
+
+@{
+    ViewData["Title"] = "Register";
+}
+
+<h2 class="text-center p-3 mb-3 bg-primary text-white">@ViewData["Title"]</h2>
+
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <form asp-action="Register" method="post" enctype="multipart/form-data" class="needs-validation" novalidate>
+            <div class="card">
+                <div class="card-body">
+                    <!-- Full Name -->
+                    <div class="form-group mb-3">
+                        <label asp-for="FullName" class="control-label bold-label">Full Name</label>
+                        <input asp-for="FullName" class="form-control" />
+                        <span asp-validation-for="FullName" class="text-danger"></span>
+                    </div>
+
+                    <!-- Email -->
+                    <div class="form-group mb-3">
+                        <label asp-for="Email" class="control-label bold-label">Email</label>
+                        <input asp-for="Email" class="form-control" />
+                        <span asp-validation-for="Email" class="text-danger"></span>
+                    </div>
+
+                    <!-- Password -->
+                    <div class="form-group mb-3">
+                        <label asp-for="Password" class="control-label bold-label">Password</label>
+                        <input asp-for="Password" class="form-control" type="password" />
+                        <span asp-validation-for="Password" class="text-danger"></span>
+                    </div>
+
+                    <!-- Confirm Password -->
+                    <div class="form-group mb-3">
+                        <label asp-for="ConfirmPassword" class="control-label bold-label">Confirm Password</label>
+                        <input asp-for="ConfirmPassword" class="form-control" type="password" />
+                        <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                    </div>
+
+                    <!-- Phone Number -->
+                    <div class="form-group mb-3">
+                        <label asp-for="PhoneNumber" class="control-label bold-label">Phone Number</label>
+                        <input asp-for="PhoneNumber" class="form-control" />
+                        <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                    </div>
+
+                    <!-- Preferred Language -->
+                    <div class="form-group mb-3">
+                        <label asp-for="PreferredLanguage" class="control-label bold-label">Preferred Language</label>
+                        <input asp-for="PreferredLanguage" class="form-control" />
+                        <span asp-validation-for="PreferredLanguage" class="text-danger"></span>
+                    </div>
+
+                    <!-- Country -->
+                    <div class="form-group mb-3">
+                        <label asp-for="Country" class="control-label bold-label">Country</label>
+                        <input asp-for="Country" class="form-control" />
+                        <span asp-validation-for="Country" class="text-danger"></span>
+                    </div>
+
+                    <!-- Bio -->
+                    <div class="form-group mb-3">
+                        <label asp-for="Bio" class="control-label bold-label">Bio</label>
+                        <textarea asp-for="Bio" class="form-control"></textarea>
+                        <span asp-validation-for="Bio" class="text-danger"></span>
+                    </div>
+
+                    <!-- Profile Picture -->
+                    <div class="form-group mb-3">
+                        <label asp-for="ProfilePicture" class="control-label bold-label">Profile Picture</label>
+                        <input asp-for="ProfilePicture" class="form-control-file" type="file" />
+                        <span asp-validation-for="ProfilePicture" class="text-danger"></span>
+                    </div>
+
+                    <!-- Role -->
+                    <div class="form-group mb-3">
+                        <label asp-for="Role" class="control-label font-weight-bold bold-label">Register As</label>
+                        <select asp-for="Role" class="form-control" id="roleSelect">
+                            <option value="Candidate">Candidate</option>
+                            <option value="Employer">Employer</option>
+                            <option value="Recruiter">Recruiter</option>
+                        </select>
+                        <span asp-validation-for="Role" class="text-danger"></span>
+                    </div>
+
+                    <!-- Fields for Employer role (displayed conditionally) -->
+                    <div id="employerFields" style="display: none;">
+                        <div class="form-group mb-3">
+                            <label asp-for="CompanyName" class="control-label font-weight-bold bold-label">Company Name</label>
+                            <input asp-for="CompanyName" class="form-control" />
+                            <span asp-validation-for="CompanyName" class="text-danger"></span>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label asp-for="Industry" class="control-label font-weight-boldb bold-label">Industry</label>
+                            <input asp-for="Industry" class="form-control" />
+                            <span asp-validation-for="Industry" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <!-- Fields for Candidate role (displayed conditionally) -->
+                    <div id="candidateFields">
+                        <!-- Skills Fields -->
+                        <div class="form-group mb-3">
+                            <label class="control-label font-weight-bold bold-label">Skills</label>
+                            <div id="skill-container" class="row justify-content-center">
+                                @if (Model.Skills != null && Model.Skills.Any())
+                                {
+                                    @for (int i = 0; i < Model.Skills.Count; i++)
+                                    {
+                                                <div class="card mb-3 col-md-8">
+                                                    <div class="card-body">
+                                                        <div class="form-row">
+                                                            <div class="form-group col-md-12">
+                                                                <label>Skill</label>
+                                                                <input asp-for="@Model.Skills[i]" class="form-control" />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="card-footer">
+                                                        <button type="button" class="btn btn-danger btn-remove-skill">Remove</button>
+                                                    </div>
+                                                </div>
+                                    }
+                                }
+                            </div>
+                            <button type="button" id="btn-add-skill" class="btn btn-success">Add Skill</button>
+                        </div>
+
+                        <!-- Education Fields -->
+                        <div class="form-group mb-3">
+                            <label class="control-label font-weight-bold bold-label">Education</label>
+                            <div id="education-container" class="row justify-content-center">
+                                @if (Model.Educations != null && Model.Educations.Any())
+                                {
+                                    @for (int i = 0; i < Model.Educations.Count; i++)
+                                    {
+                                                <div class="card mb-3 col-md-8">
+                                                    <div class="card-body">
+                                                        <div class="form-row">
+                                                            <div class="form-group col-md-4">
+                                                                <label>Institution</label>
+                                                                <input asp-for="@Model.Educations[i].Institution" class="form-control" />
+                                                            </div>
+                                                            <div class="form-group col-md-4">
+                                                                <label>Degree</label>
+                                                                <input asp-for="@Model.Educations[i].Degree" class="form-control" />
+                                                            </div>
+                                                            <div class="form-group col-md-4">
+                                                                <label>Field of Study</label>
+                                                                <input asp-for="@Model.Educations[i].FieldOfStudy" class="form-control" />
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-row">
+                                                            <div class="form-group col-md-6">
+                                                                <label>Start Date</label>
+                                                                <input asp-for="@Model.Educations[i].StartDate" class="form-control" type="date" />
+                                                            </div>
+                                                            <div class="form-group col-md-6">
+                                                                <label>End Date</label>
+                                                                <input asp-for="@Model.Educations[i].EndDate" class="form-control" type="date" />
+                                                                <span asp-validation-for="@Model.Educations[i].EndDate" class="text-danger"></span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="card-footer">
+                                                        <button type="button" class="btn btn-danger btn-remove-education">Remove</button>
+                                                    </div>
+                                                </div>
+                                    }
+                                }
+                            </div>
+                            <button type="button" id="btn-add-education" class="btn btn-success">Add Education</button>
+                        </div>
+
+                        <!-- Experience Fields -->
+                        <div class="form-group mb-3">
+                            <label class="control-label font-weight-bold bold-label">Experience</label>
+                            <div id="experience-container" class="row justify-content-center">
+                                @if (Model.Experiences != null && Model.Experiences.Any())
+                                {
+                                    @for (int i = 0; i < Model.Experiences.Count; i++)
+                                    {
+                                                <div class="card mb-3 col-md-8">
+                                                    <div class="card-body">
+                                                        <div class="form-row">
+                                                            <div class="form-group col-md-4">
+                                                                <label>Company</label>
+                                                                <input asp-for="@Model.Experiences[i].Company" class="form-control" />
+                                                            </div>
+                                                            <div class="form-group col-md-4">
+                                                                <label>Position</label>
+                                                                <input asp-for="@Model.Experiences[i].Position" class="form-control" />
+                                                            </div>
+                                                            <div class="form-group col-md-4">
+                                                                <label>Description</label>
+                                                                <input asp-for="@Model.Experiences[i].Description" class="form-control" />
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-row">
+                                                            <div class="form-group col-md-6">
+                                                                <label>Start Date</label>
+                                                                <input asp-for="@Model.Experiences[i].StartDate" class="form-control" type="date" />
+                                                            </div>
+                                                            <div class="form-group col-md-6">
+                                                                <label>End Date</label>
+                                                                <input asp-for="@Model.Experiences[i].EndDate" class="form-control" type="date" />
+                                                                <span asp-validation-for="@Model.Experiences[i].EndDate" class="text-danger"></span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="card-footer">
+                                                        <button type="button" class="btn btn-danger btn-remove-experience">Remove</button>
+                                                    </div>
+                                                </div>
+                                    }
+                                }
+                            </div>
+                            <button type="button" id="btn-add-experience" class="btn btn-success">Add Experience</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Submit Button -->
+                <div class="card-footer text-center">
+                    <button type="submit" class="btn btn-primary">Register</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<style>
+    .custom-form-container {
+        background-color: #f8f9fa;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        padding: 20px;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .bold-label {
+        font-weight: bold;
+    }
+</style>
+
+@section Scripts {
+        <script type="text/javascript">
+            $(document).ready(function () {
+                // Show/hide employer fields based on role selection
+                $('#roleSelect').change(function () {
+                    var selectedRole = $(this).val();
+                    if (selectedRole === 'Employer') {
+                        $('#employerFields').show();
+                        $('#candidateFields').hide();
+                    } else if (selectedRole === 'Candidate') {
+                        $('#employerFields').hide();
+                        $('#candidateFields').show();
+                    }
+                    else {
+                        $('#candidateFields').hide();
+                        $('#employerFields').hide();
+                    }
+                });
+
+                // Dynamically add/remove education fields
+                var educationIndex = @Model.Educations.Count;
+
+                $('#btn-add-education').click(function () {
+                    var educationHtml = '<div class="card mb-3">' +
+                        '<div class="card-body">' +
+                        '<div class="form-row">' +
+                        '<div class="form-group mb-3">' +
+                        '<label>Institution</label>' +
+                        '<input name="Educations[' + educationIndex + '].Institution" class="form-control" />' +
+                        '</div>' +
+                        '<div class="form-group mb-3">' +
+                        '<label>Degree</label>' +
+                        '<input name="Educations[' + educationIndex + '].Degree" class="form-control" />' +
+                        '</div>' +
+                        '<div class="form-group mb-3">' +
+                        '<label>Field of Study</label>' +
+                        '<input name="Educations[' + educationIndex + '].FieldOfStudy" class="form-control" />' +
+                        '</div>' +
+                        '</div>' +
+                        '<div class="form-row d-flex justify-content-between mb-3">' +
+                        '<div class="form-group mx-3">' +
+                        '<label>Start Date</label>' +
+                        '<input name="Educations[' + educationIndex + '].StartDate" class="form-control" type="date" />' +
+                        '</div>' +
+                        '<div class="form-group mx-3">' +
+                        '<label>End Date</label>' +
+                        '<input name="Educations[' + educationIndex + '].EndDate" class="form-control" type="date" />' +
+                        '<span asp-validation-for="Educations[' + educationIndex + '].EndDate" class="text-danger"></span>' +
+                        '</div>' +
+                        '</div>' +
+                        '</div>' +
+                        '<div class="card-footer">' +
+                        '<button type="button" class="btn btn-danger btn-remove-education">Remove</button>' +
+                        '</div>' +
+                        '</div>';
+
+                    // Append the new education card to the center-aligned container
+                    $('#education-container').append('<div class="col-md-8 offset-md-2">' + educationHtml + '</div>');
+                    educationIndex++;
+                });
+
+                $(document).on('click', '.btn-remove-education', function () {
+                    $(this).closest('.card').remove();
+                });
+
+                // Dynamically add/remove experience fields
+                var experienceIndex = @Model.Experiences.Count;
+
+                $('#btn-add-experience').click(function () {
+                    var experienceHtml = '<div class="card mb-3">' +
+                        '<div class="card-body">' +
+                        '<div class="form-row">' +
+                        '<div class="form-group mb-3">' +
+                        '<label>Company</label>' +
+                        '<input name="Experiences[' + experienceIndex + '].Company" class="form-control" />' +
+                        '</div>' +
+                        '<div class="form-group mb-3">' +
+                        '<label>Position</label>' +
+                        '<input name="Experiences[' + experienceIndex + '].Position" class="form-control" />' +
+                        '</div>' +
+                        '<div class="form-group mb-3">' +
+                        '<label>Description</label>' +
+                        '<input name="Experiences[' + experienceIndex + '].Description" class="form-control" />' +
+                        '</div>' +
+                        '</div>' +
+                        '<div class="form-row d-flex justify-content-between mb-3 mx-3">' +
+                        '<div class="form-group col-md-6">' +
+                        '<label>Start Date</label>' +
+                        '<input name="Experiences[' + experienceIndex + '].StartDate" class="form-control" type="date" />' +
+                        '</div>' +
+                        '<div class="form-group col-md-6">' +
+                        '<label>End Date</label>' +
+                        '<input name="Experiences[' + experienceIndex + '].EndDate" class="form-control" type="date" />' +
+                        '<span asp-validation-for="Experiences[' + experienceIndex + '].EndDate" class="text-danger"></span>' +
+                        '</div>' +
+                        '</div>' +
+                        '</div>' +
+                        '<div class="card-footer">' +
+                        '<button type="button" class="btn btn-danger btn-remove-experience">Remove</button>' +
+                        '</div>' +
+                        '</div>';
+
+                    // Append the new experience card to the center-aligned container
+                    $('#experience-container').append('<div class="col-md-8 offset-md-2">' + experienceHtml + '</div>');
+                    experienceIndex++;
+                });
+
+                $(document).on('click', '.btn-remove-experience', function () {
+                    $(this).closest('.card').remove();
+                });
+            });
+        </script>
+}

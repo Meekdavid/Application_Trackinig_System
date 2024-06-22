@@ -1,0 +1,114 @@
+﻿@model JobPostViewModel
+
+@{
+    ViewData["Title"] = "Create Job Post";
+}
+
+<h2>Create Job Post</h2>
+
+<form asp-action="Create" method="post">
+    <div class="form-group">
+        <label asp-for="JobTitle"></label>
+        <input asp-for="JobTitle" class="form-control" />
+        <span asp-validation-for="JobTitle" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Location"></label>
+        <input asp-for="Location" class="form-control" />
+        <span asp-validation-for="Location" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Salary"></label>
+        <input asp-for="Salary" class="form-control" />
+        <span asp-validation-for="Salary" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Responsibilities"></label>
+        <textarea asp-for="Responsibilities" class="form-control"></textarea>
+        <span asp-validation-for="Responsibilities" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Description"></label>
+        <textarea asp-for="Description" class="form-control"></textarea>
+        <span asp-validation-for="Description" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Requirements"></label>
+        <textarea asp-for="Requirements" class="form-control"></textarea>
+        <span asp-validation-for="Requirements" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="EmploymentType"></label>
+        <input asp-for="EmploymentType" class="form-control" />
+        <span asp-validation-for="EmploymentType" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="CompanyName"></label>
+        <input asp-for="CompanyName" class="form-control" />
+        <span asp-validation-for="CompanyName" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Industry"></label>
+        <input asp-for="Industry" class="form-control" />
+        <span asp-validation-for="Industry" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="ExperienceLevel"></label>
+        <input asp-for="ExperienceLevel" class="form-control" />
+        <span asp-validation-for="ExperienceLevel" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="EducationLevel"></label>
+        <input asp-for="EducationLevel" class="form-control" />
+        <span asp-validation-for="EducationLevel" class="text-danger"></span>
+    </div>
+
+    <h4>R1 Check Questions</h4>
+    <div class="form-group">
+        <label asp-for="R1CheckQuestion1"></label>
+        <input asp-for="R1CheckQuestion1" class="form-control" />
+        <span asp-validation-for="R1CheckQuestion1" class="text-danger"></span>
+        <div>
+            <label><input asp-for="R1CheckAnswer1" type="radio" value="true" /> Yes</label>
+            <label><input asp-for="R1CheckAnswer1" type="radio" value="false" /> No</label>
+        </div>
+    </div>
+    <div class="form-group">
+        <label asp-for="R1CheckQuestion2"></label>
+        <input asp-for="R1CheckQuestion2" class="form-control" />
+        <span asp-validation-for="R1CheckQuestion2" class="text-danger"></span>
+        <div>
+            <label><input asp-for="R1CheckAnswer2" type="radio" value="true" /> Yes</label>
+            <label><input asp-for="R1CheckAnswer2" type="radio" value="false" /> No</label>
+        </div>
+    </div>
+    <div class="form-group">
+        <label asp-for="R1CheckQuestion3"></label>
+        <input asp-for="R1CheckQuestion3" class="form-control" />
+        <span asp-validation-for="R1CheckQuestion3" class="text-danger"></span>
+        <div>
+            <label><input asp-for="R1CheckAnswer3" type="radio" value="true" /> Yes</label>
+            <label><input asp-for="R1CheckAnswer3" type="radio" value="false" /> No</label>
+        </div>
+    </div>
+    <div class="form-group">
+        <label asp-for="R1CheckQuestion4"></label>
+        <input asp-for="R1CheckQuestion4" class="form-control" />
+        <span asp-validation-for="R1CheckQuestion4" class="text-danger"></span>
+        <div>
+            <label><input asp-for="R1CheckAnswer4" type="radio" value="true" /> Yes</label>
+            <label><input asp-for="R1CheckAnswer4" type="radio" value="false" /> No</label>
+        </div>
+    </div>
+    <div class="form-group">
+        <label asp-for="R1CheckQuestion5"></label>
+        <input asp-for="R1CheckQuestion5" class="form-control" />
+        <span asp-validation-for="R1CheckQuestion5" class="text-danger"></span>
+        <div>
+            <label><input asp-for="R1CheckAnswer5" type="radio" value="true" /> Yes</label>
+            <label><input asp-for="R1CheckAnswer5" type="radio" value="false" /> No</label>
+        </div>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Create</button>
+</form>

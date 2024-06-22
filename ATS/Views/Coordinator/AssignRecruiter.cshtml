@@ -1,0 +1,100 @@
+﻿@model AssignRecruiterViewModel
+
+@{
+    ViewBag.Title = "Assign Recruiters and R2 Questions";
+    if (Model.R2Questions == null)
+    {
+        Model.R2Questions = new List<R2Response>();
+    }
+}
+
+<h2>Assign Recruiters and R2 Questions</h2>
+
+@using (Html.BeginForm("AssignRecruitersAndR2Questions", "Coordinator", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(m => m.JobPostId)
+    @Html.ValidationSummary("", new { @class = "text-danger" })
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.SelectedRecruiterIds, "Recruiters", new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DropDownListFor(m => m.SelectedRecruiterIds, new SelectList(Model.Recruiters, "Value", "Text"), new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.SelectedRecruiterIds, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.R2Questions, "R2 Questions", new { @class = "control-label col-md-2" })
+        <div class="col-md-10" id="r2-questions-container">
+            @for (int i = 0; i < Model.R2Questions.Count(); i++)
+            {
+                <div class="mb-3">
+                    @Html.HiddenFor(m => m.R2Questions[i].Id)
+                    @Html.LabelFor(m => m.R2Questions[i].Question, $"Question {i + 1}", new { @class = "form-label" })
+                    @Html.TextAreaFor(m => m.R2Questions[i].Question, new { @class = "form-control r2-question-input", rows = 3, placeholder = $"Enter R2 Question {i + 1}" })
+                    @Html.ValidationMessageFor(m => m.R2Questions[i].Question, "", new { @class = "text-danger" })
+                </div>
+            }
+            <br>
+        </div>
+        <div class="col-md-offset-2 col-md-10">
+            <button type="button" class="btn btn-secondary" id="add-r2-question-btn">Add R2 Question</button>
+        </div>
+        <br>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-12 d-flex justify-content-between">
+            <button type="submit" class="btn btn-primary">Proceed</button>
+            <button type="button" class="btn btn-secondary" onclick="window.location.href='@Url.Action("Dashboard", "Coordinator")'">Back to Dashboard</button>
+        </div>
+    </div>
+}
+
+@section Scripts {
+    <script>
+        // JavaScript for adding dynamic R2 questions
+        $(document).ready(function () {
+            var maxR2Questions = 6; // Maximum number of R2 questions allowed
+
+            $('#add-r2-question-btn').on('click', function () {
+                var r2QuestionCount = $('.r2-question-input').length;
+
+                if (r2QuestionCount < maxR2Questions) {
+                    var newQuestionInput = `<div class="mb-3">
+                                                                <textarea class="form-control r2-question-input" rows="3" name="R2Questions[` + r2QuestionCount + `].Question" placeholder="Enter R2 Question"></textarea>
+                                                            </div>`;
+                    $('#r2-questions-container').append(newQuestionInput);
+                } else {
+                    // Display an error message
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'You can only add up to five R2 questions.'
+                    });
+                }
+            });
+
+        });
+    </script>
+}
+
+<style>
+    /* Custom CSS for table row hover effect */
+    .table-row-hover {
+        background-color: #f8f9fa; /* Light gray background on hover */
+        transition: background-color 0.3s ease;
+    }
+
+    .employer-link {
+        color: #007bff; /* Bootstrap primary link color */
+        text-decoration: none;
+        transition: color 0.3s ease;
+    }
+
+        .employer-link:hover {
+            color: #0056b3; /* Darker shade of primary color on hover */
+            text-decoration: underline;
+        }
+</style>

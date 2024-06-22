@@ -1,0 +1,47 @@
+﻿@model ProfileViewModel
+
+@{
+    ViewData["Title"] = "Profile";
+}
+
+<h2>Profile</h2>
+
+<form asp-action="Profile" method="post" enctype="multipart/form-data">
+    <div class="form-group">
+        <label asp-for="FullName"></label>
+        <input asp-for="FullName" class="form-control" />
+        <span asp-validation-for="FullName" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="PhoneNumber"></label>
+        <input asp-for="PhoneNumber" class="form-control" />
+        <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="PreferredLanguage"></label>
+        <input asp-for="PreferredLanguage" class="form-control" />
+        <span asp-validation-for="PreferredLanguage" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Country"></label>
+        <input asp-for="Country" class="form-control" />
+        <span asp-validation-for="Country" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Bio"></label>
+        <textarea asp-for="Bio" class="form-control"></textarea>
+        <span asp-validation-for="Bio" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="ProfilePicture"></label>
+        <input asp-for="ProfilePicture" class="form-control-file" type="file" />
+        <span asp-validation-for="ProfilePicture" class="text-danger"></span>
+    </div>
+    @if (Model.ProfilePictureUrl != null)
+    {
+        <div class="form-group">
+            <img src="@Model.ProfilePictureUrl" alt="Profile Picture" class="img-thumbnail" style="max-width: 150px;" />
+        </div>
+    }
+    <button type="submit" class="btn btn-primary">Update</button>
+</form>

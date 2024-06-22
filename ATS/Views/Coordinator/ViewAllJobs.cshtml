@@ -1,0 +1,104 @@
+﻿@model IEnumerable<JobPost>
+
+@{
+    ViewBag.Title = "Applied Jobs";
+}
+
+<h2 class="text-center mb-4">Coordinator Dashboard</h2>
+
+<div class="table-responsive">
+    <table class="table table-bordered table-striped">
+        <thead class="thead-dark">
+            <tr>
+                <th>Job Title</th>
+                <th>Location</th>
+                <th>Salary</th>
+                <th>Responsibilities</th>
+                <th>Employer</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@Html.DisplayFor(modelItem => item.JobTitle)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Location)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Salary)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Responsibilities)</td>
+                    <td>
+                        <a href="@Url.Action("EmployerProfile", "Employer", new { employerId = item.CreatedBy.Id })" class="employer-link">
+                            @Html.DisplayFor(modelItem => item.CreatedBy.FullName)
+                        </a>
+                    </td>
+                    <td>
+                        <span class="status-box @((item.IsApproved) ? "approved" : "not-approved")">
+                            @((item.IsApproved) ? "Approved" : "Not Approved")
+                        </span>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+@section Scripts {
+    <script>
+        // JavaScript for hover effect on table rows
+        $(document).ready(function () {
+            $('.table tbody tr').hover(
+                function () {
+                    $(this).addClass('table-row-hover');
+                },
+                function () {
+                    $(this).removeClass('table-row-hover');
+                }
+            );
+
+            // Optional: Add smooth scrolling to employer profile links
+            $('.employer-link').on('click', function (e) {
+                e.preventDefault();
+                var target = $(this).attr('href');
+                $('html, body').animate({
+                    scrollTop: $(target).offset().top
+                }, 800);
+            });
+        });
+    </script>
+}
+
+<style>
+    /* Custom CSS for table row hover effect */
+    .table-row-hover {
+        background-color: #f8f9fa; /* Light gray background on hover */
+        transition: background-color 0.3s ease;
+    }
+
+    /* Optional: Add styling for the Employer column link */
+    .employer-link {
+        color: #007bff; /* Bootstrap primary link color */
+        text-decoration: none;
+        transition: color 0.3s ease;
+    }
+
+        .employer-link:hover {
+            color: #0056b3; /* Darker shade of primary color on hover */
+            text-decoration: underline;
+        }
+
+    /* Styling for the status box */
+    .status-box {
+        display: inline-block;
+        padding: 0.5em 1em;
+        color: white;
+        border-radius: 0.25em;
+    }
+
+    .approved {
+        background-color: green;
+    }
+
+    .not-approved {
+        background-color: red;
+    }
+</style>

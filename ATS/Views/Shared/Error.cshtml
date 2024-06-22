@@ -1,0 +1,45 @@
+﻿@{
+    ViewData["Title"] = "Error";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - ATS</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-pzjw8f+ua7Kw1TIqH5PVlgzIQtss1+CTOZtE3Rm4e2y1U/4naQ5UIr/G2IlXoe0g" crossorigin="anonymous">
+    <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+</head>
+<body>
+    <div class="container mt-5">
+        <div class="jumbotron text-center">
+            <h1 class="display-4 text-danger"><i class="fas fa-exclamation-triangle"></i> Oops! An error occurred</h1>
+            <p class="lead">We are sorry, but something went wrong.</p>
+            <hr class="my-4">
+            <p>Here are some options to get you back on track:</p>
+            <div class="btn-group" role="group">
+                <a class="btn btn-primary btn-lg mx-2" href="@Url.Action("Index", "Home")" role="button"><i class="fas fa-home"></i> Go to Home</a>
+                <a class="btn btn-secondary btn-lg mx-2" href="@Url.Action("Support", "Home")" role="button"><i class="fas fa-headset"></i> Contact Support</a>
+            </div>
+            <br /><br />
+            <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#errorDetails" aria-expanded="false" aria-controls="errorDetails">
+                <i class="fas fa-info-circle"></i> Show Error Details
+            </button>
+            <div class="collapse mt-4" id="errorDetails">
+                <div class="card card-body">
+                    <h5 class="card-title">Error Details:</h5>
+                    <p class="card-text">@ViewBag.ErrorMessage</p>
+                    <pre class="bg-light p-3">@ViewBag.StackTrace</pre>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha384-ZvpUoO/+PujpL9L8V2BqU6/z6MjD6Pjq/j01ZfdB91JxW7p/6cflYGDw2E/Wg+I1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js" integrity="sha384-pzjw8f+ua7Kw1TIqH5PVlgzIQtss1+CTOZtE3Rm4e2y1U/4naQ5UIr/G2IlXoe0g" crossorigin="anonymous"></script>
+</body>
+</html>

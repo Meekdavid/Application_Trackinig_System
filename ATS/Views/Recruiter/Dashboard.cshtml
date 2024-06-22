@@ -1,0 +1,135 @@
+﻿@model Application
+
+@{
+    ViewBag.Title = "Recruiter Dashboard";
+}
+
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-3">
+            <div class="card">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Total Applications</h5>
+                    <p class="card-text display-4">@TempData["Total"]</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Shortlisted</h5>
+                    <p class="card-text display-4">@TempData["Shortlisted"]</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Screened Out</h5>
+                    <p class="card-text display-4">@TempData["ScreenedOut"]</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Pending Review</h5>
+                    <p class="card-text display-4">@TempData["Pending"]</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card mt-4">
+        <div class="card-header">
+            <h2>Recruiter Dashboard</h2>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                @if (Model != null)
+                {
+                    <div class="col-md-6">
+                        <h4 class="card-title">Application Details</h4>
+                        <p><strong>Job Title:</strong> @Html.DisplayFor(model => model.JobPost.JobTitle)</p>
+                        <p><strong>Location:</strong> @Html.DisplayFor(model => model.JobPost.Location)</p>
+                        <p><strong>Salary:</strong> @Html.DisplayFor(model => model.JobPost.Salary)</p>
+                        <p><strong>Responsibilities:</strong> @Html.DisplayFor(model => model.JobPost.Responsibilities)</p>
+                        <hr>
+                        <h4 class="card-title">Candidate Details</h4>
+                        <p><strong>Name:</strong> @Html.DisplayFor(model => model.Candidate.FullName)</p>
+                        <p><strong>Email:</strong> @Html.DisplayFor(model => model.Candidate.Email)</p>
+                        <p><strong>Phone:</strong> @Html.DisplayFor(model => model.Candidate.PhoneNumber)</p>
+                    </div>
+                    <div class="col-md-6">
+                        <h4 class="card-title">Resume</h4>
+                        <a asp-action="ViewResume" asp-route-id="@Model.ApplicationId" class="btn btn-primary mb-3">View Resume</a>
+                        <h4 class="card-title">R2 Questions</h4>
+                        @if (Model.JobPost.R2Questions != null && Model.JobPost.R2Questions.Any())
+                        {
+                            <ul class="list-group">
+                                @foreach (var question in Model.JobPost.R2Questions)
+                                {
+                                    <li class="list-group-item">@question.Question</li>
+                                }
+                            </ul>
+                        }
+                        else
+                        {
+                            <p>No R2 questions defined for this job.</p>
+                        }
+                    </div>
+                    <div class="card-footer text-right">
+                        <a asp-action="ReviewApplication" asp-route-id="@Model.ApplicationId" class="btn btn-primary">Proceed</a>
+                        <a asp-action="Dashboard" asp-controller="Recruiter" class="btn btn-secondary">Back to Dashboard</a>
+                    </div>
+                }
+                else
+                {
+                    <h5>No Applications are Avaialable for Review at this Time</h5>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+    @if (TempData["Success"] != null)
+    {
+        <text>
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Success',
+                    text: '@TempData["SuccessMessage"]',
+                    showConfirmButton: false,
+                    timer: 3000
+                });
+        </text>
+    }
+
+    @if (TempData["Error"] != null)
+    {
+        <text>
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: '@TempData["Error"]',
+                    showConfirmButton: true
+                });
+        </text>
+    }
+
+            // Filtering matching jobs
+            $('#jobFilter').on('keyup', function () {
+                var filter = $(this).val().toLowerCase();
+                $('.list-group-item').each(function () {
+                    var title = $(this).find('a').text().toLowerCase();
+                    if (title.includes(filter)) {
+                        $(this).show();
+                    } else {
+                        $(this).hide();
+                    }
+                });
+            });
+    });
+</script>
