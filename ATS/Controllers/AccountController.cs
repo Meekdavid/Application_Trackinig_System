@@ -122,7 +122,11 @@ namespace ATS.Controllers
                 TempData["Error"] = "Username or Password Incorrect";
                 ModelState.AddModelError(string.Empty, "Invalid login attempt.");
             }
-            TempData["Error"] = "Some input fields are not valid.";
+            else
+            {
+                TempData["Error"] = "Some input fields are not valid.";
+            }
+            
             return View(model);
         }
 

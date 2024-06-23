@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace ATS.Migrations
 {
     /// <inheritdoc />
-    public partial class FirstMigration : Migration
+    public partial class updateDataTypesh : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -84,7 +84,7 @@ namespace ATS.Migrations
                         column: x => x.RoleId,
                         principalTable: "AspNetRoles",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.NoAction);
                 });
 
             migrationBuilder.CreateTable(
@@ -105,7 +105,7 @@ namespace ATS.Migrations
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.NoAction);
                 });
 
             migrationBuilder.CreateTable(
@@ -125,7 +125,7 @@ namespace ATS.Migrations
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.NoAction);
                 });
 
             migrationBuilder.CreateTable(
@@ -143,13 +143,13 @@ namespace ATS.Migrations
                         column: x => x.RoleId,
                         principalTable: "AspNetRoles",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.NoAction);
                     table.ForeignKey(
                         name: "FK_AspNetUserRoles_AspNetUsers_UserId",
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.NoAction);
                 });
 
             migrationBuilder.CreateTable(
@@ -169,7 +169,7 @@ namespace ATS.Migrations
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.NoAction);
                 });
 
             migrationBuilder.CreateTable(
@@ -178,9 +178,9 @@ namespace ATS.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Institution = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Degree = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    FieldOfStudy = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Institution = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Degree = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    FieldOfStudy = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     StartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     EndDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UserId = table.Column<string>(type: "nvarchar(450)", nullable: false)
@@ -193,7 +193,7 @@ namespace ATS.Migrations
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.NoAction);
                 });
 
             migrationBuilder.CreateTable(
@@ -202,9 +202,9 @@ namespace ATS.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Company = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Position = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Company = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Position = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     StartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     EndDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UserId = table.Column<string>(type: "nvarchar(450)", nullable: false)
@@ -217,36 +217,35 @@ namespace ATS.Migrations
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.NoAction);
                 });
 
             migrationBuilder.CreateTable(
                 name: "JobPosts",
                 columns: table => new
                 {
-                    JobPostId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    JobTitle = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Location = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    JobPostId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    JobTitle = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
+                    Location = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
                     Salary = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    Responsibilities = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Requirements = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    EmploymentType = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    CompanyName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Industry = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ExperienceLevel = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    EducationLevel = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    R1CheckQuestion1 = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    R1CheckAnswer1 = table.Column<bool>(type: "bit", nullable: false),
-                    R1CheckQuestion2 = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    R1CheckAnswer2 = table.Column<bool>(type: "bit", nullable: false),
-                    R1CheckQuestion3 = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    R1CheckAnswer3 = table.Column<bool>(type: "bit", nullable: false),
-                    R1CheckQuestion4 = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    R1CheckAnswer4 = table.Column<bool>(type: "bit", nullable: false),
-                    R1CheckQuestion5 = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    R1CheckAnswer5 = table.Column<bool>(type: "bit", nullable: false),
+                    Responsibilities = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(2000)", maxLength: 2000, nullable: false),
+                    Requirements = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: false),
+                    EmploymentType = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
+                    CompanyName = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
+                    Industry = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
+                    ExperienceLevel = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
+                    EducationLevel = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
+                    R1CheckQuestion1 = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: true),
+                    R1CheckAnswer1 = table.Column<bool>(type: "bit", nullable: true),
+                    R1CheckQuestion2 = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: true),
+                    R1CheckAnswer2 = table.Column<bool>(type: "bit", nullable: true),
+                    R1CheckQuestion3 = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: true),
+                    R1CheckAnswer3 = table.Column<bool>(type: "bit", nullable: true),
+                    R1CheckQuestion4 = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: true),
+                    R1CheckAnswer4 = table.Column<bool>(type: "bit", nullable: true),
+                    R1CheckQuestion5 = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: true),
+                    R1CheckAnswer5 = table.Column<bool>(type: "bit", nullable: true),
                     IsApproved = table.Column<bool>(type: "bit", nullable: false),
                     DateCreated = table.Column<DateTime>(type: "datetime2", nullable: false),
                     CreatedById = table.Column<string>(type: "nvarchar(450)", nullable: false),
@@ -265,7 +264,7 @@ namespace ATS.Migrations
                         column: x => x.CreatedById,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.NoAction);
                 });
 
             migrationBuilder.CreateTable(
@@ -274,22 +273,22 @@ namespace ATS.Migrations
                 {
                     ApplicationId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    JobPostId = table.Column<int>(type: "int", nullable: false),
+                    JobPostId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     CandidateId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     ResumeBase64 = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    R1Response1 = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    R1Response2 = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    R1Response3 = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    R1Response4 = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    R1Response5 = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    R1Response1 = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    R1Response2 = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    R1Response3 = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    R1Response4 = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    R1Response5 = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     IsShortlisted = table.Column<bool>(type: "bit", nullable: false),
                     IsScreenedOut = table.Column<bool>(type: "bit", nullable: false),
-                    FullName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Address = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Education = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Experience = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    FullName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Email = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Address = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Education = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Experience = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -299,23 +298,21 @@ namespace ATS.Migrations
                         column: x => x.CandidateId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.NoAction);
                     table.ForeignKey(
                         name: "FK_Applications_JobPosts_JobPostId",
                         column: x => x.JobPostId,
                         principalTable: "JobPosts",
                         principalColumn: "JobPostId",
                         onDelete: ReferentialAction.NoAction);
-
                 });
 
             migrationBuilder.CreateTable(
                 name: "JobPostRecruiters",
                 columns: table => new
                 {
-                    JobPostRecruiterId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    JobPostId = table.Column<int>(type: "int", nullable: false),
+                    JobPostRecruiterId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    JobPostId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     RecruiterId = table.Column<string>(type: "nvarchar(450)", nullable: false)
                 },
                 constraints: table =>
@@ -326,7 +323,7 @@ namespace ATS.Migrations
                         column: x => x.RecruiterId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.NoAction);
                     table.ForeignKey(
                         name: "FK_JobPostRecruiters_JobPosts_JobPostId",
                         column: x => x.JobPostId,
@@ -342,9 +339,9 @@ namespace ATS.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     ApplicationId = table.Column<int>(type: "int", nullable: false),
-                    Question = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Response = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    JobPostId = table.Column<int>(type: "int", nullable: false)
+                    Question = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Response = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    JobPostId = table.Column<string>(type: "nvarchar(450)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -354,7 +351,7 @@ namespace ATS.Migrations
                         column: x => x.ApplicationId,
                         principalTable: "Applications",
                         principalColumn: "ApplicationId",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.NoAction);
                     table.ForeignKey(
                         name: "FK_R2Details_JobPosts_JobPostId",
                         column: x => x.JobPostId,
@@ -381,7 +378,7 @@ namespace ATS.Migrations
                         column: x => x.ApplicationId,
                         principalTable: "Applications",
                         principalColumn: "ApplicationId",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.NoAction);
                     table.ForeignKey(
                         name: "FK_Skill_AspNetUsers_ApplicationUserId",
                         column: x => x.ApplicationUserId,

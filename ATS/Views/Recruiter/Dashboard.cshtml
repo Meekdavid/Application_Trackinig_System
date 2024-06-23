@@ -1,4 +1,4 @@
-﻿@model Application
+﻿@*@model Application
 
 @{
     ViewBag.Title = "Recruiter Dashboard";
@@ -91,7 +91,216 @@
         </div>
     </div>
 </div>
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+<script>
+    $(document).ready(function () {
+    @if (TempData["Success"] != null)
+    {
+        <text>
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Success',
+                    text: '@TempData["SuccessMessage"]',
+                    showConfirmButton: false,
+                    timer: 3000
+                });
+        </text>
+    }
 
+    @if (TempData["Error"] != null)
+    {
+        <text>
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: '@TempData["Error"]',
+                    showConfirmButton: true
+                });
+        </text>
+    }
+
+            // Filtering matching jobs
+            $('#jobFilter').on('keyup', function () {
+                var filter = $(this).val().toLowerCase();
+                $('.list-group-item').each(function () {
+                    var title = $(this).find('a').text().toLowerCase();
+                    if (title.includes(filter)) {
+                        $(this).show();
+                    } else {
+                        $(this).hide();
+                    }
+                });
+            });
+    });
+</script>*@
+
+@model ATS.Models.Application
+
+@{
+    ViewBag.Title = "Recruiter Dashboard";
+
+}
+
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-3">
+            <div class="card">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Total Applications</h5>
+                    <p class="card-text display-4">@TempData["Total"]</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Shortlisted</h5>
+                    <p class="card-text display-4">@TempData["Shortlisted"]</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Screened Out</h5>
+                    <p class="card-text display-4">@TempData["ScreenedOut"]</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Pending Review</h5>
+                    <p class="card-text display-4">@TempData["Pending"]</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card mt-4">
+        <div class="card-header">
+            <h2>Recruiter Dashboard</h2>
+        </div>
+        <div class="card-body">
+            <form asp-action="ReviewApplication" method="post">
+
+                <div class="row">
+                    @if (Model != null)
+                    {
+                        <div class="col-md-6">
+                            <h4 class="card-title">Application Details</h4>
+                            <p><strong>Job Title:</strong> @Html.DisplayFor(model => model.JobPost.JobTitle)</p>
+                            <p><strong>Location:</strong> @Html.DisplayFor(model => model.JobPost.Location)</p>
+                            <p><strong>Salary:</strong> @Html.DisplayFor(model => model.JobPost.Salary)</p>
+                            <p><strong>Responsibilities:</strong> @Html.DisplayFor(model => model.JobPost.Responsibilities)</p>
+                            <hr>
+                            <h4 class="card-title">Candidate Details</h4>
+                            <p><strong>Name:</strong> @Html.DisplayFor(model => model.Candidate.FullName)</p>
+                            <p><strong>Email:</strong> @Html.DisplayFor(model => model.Candidate.Email)</p>
+                            <p><strong>Phone:</strong> @Html.DisplayFor(model => model.Candidate.PhoneNumber)</p>
+                            <a asp-action="ViewCandidateDetails" asp-controller="Recruiter" asp-route-id="@Model.CandidateId" class="btn btn-secondary">Full Details</a>
+                        </div>
+                        <div class="col-md-6">
+                            <h4 class="card-title">Resume</h4>
+                            <a asp-action="ViewResume" asp-route-id="@Model.ApplicationId" class="btn btn-primary mb-3">View Resume</a>
+                            <h4 class="card-title">R2 Questions</h4>
+                            @if (Model.JobPost.R2Questions != null && Model.JobPost.R2Questions.Any())
+                            {
+                                <ul class="list-group">
+                                    @for (int i = 0; i < Model.JobPost.R2Questions.Count; i++)
+                                    {
+                                        <li class="list-group-item">
+                                            <p>@Model.JobPost.R2Questions[i].Question</p>
+                                            <input type="hidden" name="R2Responses[@i].QuestionId" value="@Model.JobPost.R2Questions[i].Id" />
+                                            <select name="R2Responses[@i].Response" class="form-control">
+                                                <option value="">Select Response</option>
+                                                <option value="Yes">Yes</option>
+                                                <option value="No">No</option>
+                                            </select>
+                                        </li>
+                                    }
+                                </ul>
+
+                            }
+                            else
+                            {
+                                <p>No R2 questions defined for this job.</p>
+                            }
+                        </div>
+                        <div class="card-footer text-right">
+                            <button type="submit" class="btn btn-primary">Shortlist</button>
+                            <button type="button" class="btn btn-secondary" onclick="history.back()">Back</button>
+                            <a asp-action="Dashboard" asp-controller="Recruiter" class="btn btn-primary">Skip to Next</a>
+                        </div>
+                    }
+                    else
+                    {
+                        <h5>No Applications are Available for Review at this Time</h5>
+                    }
+                </div>
+
+                <!-- Hidden fields to pass the rest of the Application model -->
+                <input type="hidden" name="ApplicationId" value="@Model.ApplicationId" />
+                <input type="hidden" name="JobPostId" value="@Model.JobPostId" />
+                <input type="hidden" name="CandidateId" value="@Model.CandidateId" />
+                <input type="hidden" name="ResumeBase64" value="@Model.ResumeBase64" />
+                <input type="hidden" name="R1Response1" value="@Model.R1Response1" />
+                <input type="hidden" name="R1Response2" value="@Model.R1Response2" />
+                <input type="hidden" name="R1Response3" value="@Model.R1Response3" />
+                <input type="hidden" name="R1Response4" value="@Model.R1Response4" />
+                <input type="hidden" name="R1Response5" value="@Model.R1Response5" />
+                <input type="hidden" name="IsShortlisted" value="@Model.IsShortlisted" />
+                <input type="hidden" name="IsScreenedOut" value="@Model.IsScreenedOut" />
+                <input type="hidden" name="FullName" value="@Model.FullName" />
+                <input type="hidden" name="Email" value="@Model.Email" />
+                <input type="hidden" name="PhoneNumber" value="@Model.PhoneNumber" />
+                <input type="hidden" name="Address" value="@Model.Address" />
+                <input type="hidden" name="Education" value="@Model.Education" />
+                <input type="hidden" name="Experience" value="@Model.Experience" />
+
+                @for (int i = 0; i < Model.R2Responses.Count; i++)
+                {
+                    <input type="hidden" name="R2Responses[@i].QuestionId" value="@Model.R2Responses[i].Id" />
+                    <input type="hidden" name="R2Responses[@i].Question" value="@Model.R2Responses[i].Question" />
+                    <input type="hidden" name="R2Responses[@i].Response" value="@Model.R2Responses[i].Response" />
+                    <input type="hidden" name="R2Responses[@i].ApplicationId" value="@Model.R2Responses[i].ApplicationId" />
+                    <input type="hidden" name="R2Responses[@i].JobPostId" value="@Model.R2Responses[i].JobPostId" />
+                }
+
+                <input type="hidden" name="JobPost.JobPostId" value="@Model.JobPost.JobPostId" />
+                <input type="hidden" name="JobPost.JobTitle" value="@Model.JobPost.JobTitle" />
+                <input type="hidden" name="JobPost.Location" value="@Model.JobPost.Location" />
+                <input type="hidden" name="JobPost.Salary" value="@Model.JobPost.Salary" />
+                <input type="hidden" name="JobPost.Responsibilities" value="@Model.JobPost.Responsibilities" />
+                <input type="hidden" name="JobPost.Description" value="@Model.JobPost.Description" />
+                <input type="hidden" name="JobPost.Requirements" value="@Model.JobPost.Requirements" />
+                <input type="hidden" name="JobPost.EmploymentType" value="@Model.JobPost.EmploymentType" />
+                <input type="hidden" name="JobPost.CompanyName" value="@Model.JobPost.CompanyName" />
+                <input type="hidden" name="JobPost.Industry" value="@Model.JobPost.Industry" />
+                <input type="hidden" name="JobPost.ExperienceLevel" value="@Model.JobPost.ExperienceLevel" />
+                <input type="hidden" name="JobPost.EducationLevel" value="@Model.JobPost.EducationLevel" />
+                <input type="hidden" name="JobPost.R1CheckQuestion1" value="@Model.JobPost.R1CheckQuestion1" />
+                <input type="hidden" name="JobPost.R1CheckAnswer1" value="@Model.JobPost.R1CheckAnswer1" />
+                <input type="hidden" name="JobPost.R1CheckQuestion2" value="@Model.JobPost.R1CheckQuestion2" />
+                <input type="hidden" name="JobPost.R1CheckAnswer2" value="@Model.JobPost.R1CheckAnswer2" />
+                <input type="hidden" name="JobPost.R1CheckQuestion3" value="@Model.JobPost.R1CheckQuestion3" />
+                <input type="hidden" name="JobPost.R1CheckAnswer3" value="@Model.JobPost.R1CheckAnswer3" />
+                <input type="hidden" name="JobPost.R1CheckQuestion4" value="@Model.JobPost.R1CheckQuestion4" />
+                <input type="hidden" name="JobPost.R1CheckAnswer4" value="@Model.JobPost.R1CheckAnswer4" />
+                <input type="hidden" name="JobPost.R1CheckQuestion5" value="@Model.JobPost.R1CheckQuestion5" />
+                <input type="hidden" name="JobPost.R1CheckAnswer5" value="@Model.JobPost.R1CheckAnswer5" />
+                <input type="hidden" name="JobPost.IsApproved" value="@Model.JobPost.IsApproved" />
+                <input type="hidden" name="JobPost.DateCreated" value="@Model.JobPost.DateCreated" />
+                <input type="hidden" name="JobPost.CreatedById" value="@Model.JobPost.CreatedById" />
+
+            </form>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 <script>
     $(document).ready(function () {
     @if (TempData["Success"] != null)

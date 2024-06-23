@@ -8,7 +8,7 @@
 
 <div class="row justify-content-center">
     <div class="col-md-8">
-        <form asp-action="Register" method="post" enctype="multipart/form-data" class="needs-validation" novalidate>
+        <form asp-action="Register" asp-controller="Account" method="post" enctype="multipart/form-data" class="needs-validation" novalidate>
             <div class="card">
                 <div class="card-body">
                     <!-- Full Name -->
@@ -52,13 +52,6 @@
                         <input asp-for="PreferredLanguage" class="form-control" />
                         <span asp-validation-for="PreferredLanguage" class="text-danger"></span>
                     </div>
-
-                    @*<!-- Country -->
-                    <div class="form-group mb-3">
-                    <label asp-for="Country" class="control-label bold-label">Country</label>
-                    <input asp-for="Country" class="form-control" />
-                    <span asp-validation-for="Country" class="text-danger"></span>
-                    </div>*@
 
                     <!-- Country -->
                     <div class="form-group mb-3">
@@ -264,6 +257,7 @@
                         </select>
                         <span asp-validation-for="Country" class="text-danger"></span>
                     </div>
+                    
 
                     <!-- Bio -->
                     <div class="form-group mb-3">
@@ -463,6 +457,9 @@
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
+
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
     <script>
         document.addEventListener("DOMContentLoaded", function () {
             // Function to handle showing/hiding role-specific fields
@@ -502,24 +499,29 @@
                                             <div class="form-group mb-3">
                                                 <label>Institution</label>
                                                 <input name="Educations[${document.querySelectorAll('#education-container .card').length}].Institution" class="form-control" />
+                                                <span class="text-danger"></span>
                                             </div>
                                                     <div class="form-group mb-3">
                                                         <label>Degree</label>
                                                         <input name="Educations[${document.querySelectorAll('#education-container .card').length}].Degree" class="form-control" />
+                                                        <span class="text-danger"></span>
                                                     </div>
                                             <div class="form-group mb-3">
                                                 <label>Field of Study</label>
                                                 <input name="Educations[${document.querySelectorAll('#education-container .card').length}].FieldOfStudy" class="form-control" />
+                                                <span class="text-danger"></span>
                                             </div>
                                         </div>
                                         <div class="form-row d-flex justify-content-between mb-3">
                                                     <div class="form-group mx-3">
                                                 <label>Start Date</label>
                                                 <input name="Educations[${document.querySelectorAll('#education-container .card').length}].StartDate" class="form-control" type="date" />
+                                                <span class="text-danger"></span>
                                             </div>
                                                     <div class="form-group mx-3">
                                                 <label>End Date</label>
                                                 <input name="Educations[${document.querySelectorAll('#education-container .card').length}].EndDate" class="form-control" type="date" />
+                                                <span class="text-danger"></span>
                                             </div>
                                         </div>
                                     </div>
@@ -541,24 +543,29 @@
                                             <div class="form-group mb-3">
                                                 <label>Company</label>
                                                 <input name="Experiences[${document.querySelectorAll('#experience-container .card').length}].Company" class="form-control" />
+                                                <span class="text-danger"></span>
                                             </div>
                                             <div class="form-group mb-3">
                                                 <label>Position</label>
                                                 <input name="Experiences[${document.querySelectorAll('#experience-container .card').length}].Position" class="form-control" />
+                                                <span class="text-danger"></span>
                                             </div>
                                             <div class="form-group mb-3">
                                                 <label>Description</label>
                                                 <input name="Experiences[${document.querySelectorAll('#experience-container .card').length}].Description" class="form-control" />
+                                                <span class="text-danger"></span>
                                             </div>
                                         </div>
                                         <div class="form-row d-flex justify-content-between mb-3">
                                             <div class="form-group mx-3">
                                                 <label>Start Date</label>
                                                 <input name="Experiences[${document.querySelectorAll('#experience-container .card').length}].StartDate" class="form-control" type="date" />
+                                                <span class="text-danger"></span>
                                             </div>
                                             <div class="form-group mx-3">
                                                 <label>End Date</label>
                                                 <input name="Experiences[${document.querySelectorAll('#experience-container .card').length}].EndDate" class="form-control" type="date" />
+                                                        <span class="text-danger"></span>
                                             </div>
                                         </div>
                                     </div>
@@ -580,6 +587,7 @@
                                             <div class="form-group col-md-12">
                                                 <label>Skill</label>
                                                 <input name="Skills[${document.querySelectorAll('#skill-container .card').length}]" class="form-control" />
+                                                <span class="text-danger"></span>
                                             </div>
                                         </div>
                                     </div>
@@ -632,15 +640,7 @@
                 }
             });
 
-            // Card hover effect
-            //$('.card').hover(
-            //    function () {
-            //        $(this).addClass('shadow-lg').css('transform', 'scale(1.05)').css('cursor', 'pointer');
-            //    }, function () {
-            //        $(this).removeClass('shadow-lg').css('transform', 'scale(1)');
-            //    }
-            //);
-
+            
             // Function to show spinner
             function showSpinner() {
                 $('#spinner').fadeIn();
@@ -681,34 +681,7 @@
             </text>
         }
 
-                    //Show spinner on AJAX request
-                    //$.ajax({
-                    //    url: '/Account/Register',
-                    //    type: 'GET',
-                    //    beforeSend: function () {
-                    //        showSpinner();
-                    //    },
-                    //    success: function (response) {
-
-                    //    },
-                    //    complete: function () {
-                    //        hideSpinner();
-                    //    }
-                    //});
-
-                    //$.ajax({
-                    //    url: '/Account/Login',
-                    //    type: 'GET',
-                    //    beforeSend: function () {
-                    //        showSpinner();
-                    //    },
-                    //    success: function (response) {
-
-                    //    },
-                    //    complete: function () {
-                    //        hideSpinner();
-                    //    }
-                    //});
+                    
                 });
     </script>
 }

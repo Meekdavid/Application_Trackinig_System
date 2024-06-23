@@ -3763,11 +3763,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\David Mboko\\Desktop\\Git\\ApplicationTracker\\ATS\\ATS.csproj",
+      "projectUniqueName": "C:\\Users\\David Mboko\\Desktop\\Git\\Application_Trackinig_System\\ATS\\ATS.csproj",
       "projectName": "ATS",
-      "projectPath": "C:\\Users\\David Mboko\\Desktop\\Git\\ApplicationTracker\\ATS\\ATS.csproj",
+      "projectPath": "C:\\Users\\David Mboko\\Desktop\\Git\\Application_Trackinig_System\\ATS\\ATS.csproj",
       "packagesPath": "C:\\Users\\David Mboko\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\David Mboko\\Desktop\\Git\\ApplicationTracker\\ATS\\obj\\",
+      "outputPath": "C:\\Users\\David Mboko\\Desktop\\Git\\Application_Trackinig_System\\ATS\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\David Mboko\\AppData\\Roaming\\NuGet\\NuGet.Config",

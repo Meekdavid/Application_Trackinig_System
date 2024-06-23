@@ -16,10 +16,10 @@ namespace ATS.Models
         public MultiSelectList? Recruiters { get; set; } = new MultiSelectList(new List<ApplicationUser>(), "Id", "FullName");
 
         [Required]
-        public int JobPostId { get; set; }
+        public string JobPostId { get; set; }
 
         [Required(ErrorMessage = "Job title is required.")]
-        [MaxLength(20, ErrorMessage = "Job title cannot exceed 100 characters.")]
+        [MaxLength(50, ErrorMessage = "Job title cannot exceed 100 characters.")]
         [RegularExpression(@"^[a-zA-Z0-9\s]*$", ErrorMessage = "Job title can only contain letters, numbers, and spaces.")]
         public string JobTitle { get; set; }
 

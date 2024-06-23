@@ -18,12 +18,25 @@ namespace ATS.Database
         public DbSet<Education> Educations { get; set; }
         public DbSet<Experience> Experiences { get; set; }
         public DbSet<R2Response> R2Details { get; set; }
+        public DbSet<MainR2Questions> JobPostQuestions { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
 
             // Configure the relationship between JobPost and ApplicationUser (CreatedBy)
+            builder.Entity<MainR2Questions>(entity =>
+            {
+                entity.HasKey(e => e.Id);
+                entity.Property(e => e.Question)
+                      .HasMaxLength(500);
+
+                entity.HasOne(e => e.JobPost)
+                      .WithMany(j => j.MainR2Questions)
+                      .HasForeignKey(e => e.JobPostId)
+                      .OnDelete(DeleteBehavior.NoAction);
+            });
+
             builder.Entity<JobPost>()
                 .HasOne(j => j.CreatedBy)
                 .WithMany()

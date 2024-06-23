@@ -11,7 +11,7 @@
         public Application Application { get; set; } = new Application();
 
         // Foreign key to JobPost
-        public int? JobPostId { get; set; } = 1;
+        public string? JobPostId { get; set; } = "1";
         public JobPost JobPost { get; set; } = new JobPost();
     }
 }

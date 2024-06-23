@@ -61,6 +61,7 @@ namespace ATS.Controllers
         public async Task<IActionResult> Dashboard(string id)
         {
             var shortlistedCandidates = _context.Applications
+                                        .Where(a => a.IsShortlisted)
                                        .Include(a => a.JobPost).Where(a => a.JobPost.CreatedBy.Id == id)
                                        .Include(a => a.Candidate)
                                        .ToList();
@@ -82,6 +83,7 @@ namespace ATS.Controllers
                 var user = await _userManager.GetUserAsync(User);
                 var jobPost = new JobPost
                 {
+                    JobPostId = new Random().Next(000000, 99999).ToString(),
                     JobTitle = model.JobTitle,
                     Location = model.Location,
                     Salary = model.Salary,

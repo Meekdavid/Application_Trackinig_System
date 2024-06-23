@@ -50,7 +50,7 @@ namespace ATS.Controllers
         }
 
         [Authorize(Roles = "Candidate")]
-        public async Task<IActionResult> Apply(int jobPostId)
+        public async Task<IActionResult> Apply(string jobPostId)
         {
             var jobPost = _context.JobPosts.Find(jobPostId);
             if (jobPost == null)
@@ -78,7 +78,7 @@ namespace ATS.Controllers
             return View(viewModel);
         }
 
-        public async Task<IActionResult> JobDetails(int id)
+        public async Task<IActionResult> JobDetails(string id)
         {
             var jobPost = _context.JobPosts.Find(id);
             if (jobPost == null)

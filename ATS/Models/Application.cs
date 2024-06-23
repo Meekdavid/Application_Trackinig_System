@@ -9,7 +9,7 @@ namespace ATS.Models
         public int ApplicationId { get; set; }
 
         [Required]
-        public int? JobPostId { get; set; }
+        public string? JobPostId { get; set; }
         public JobPost JobPost { get; set; }
 
         [Required]

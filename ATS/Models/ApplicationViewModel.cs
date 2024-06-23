@@ -6,7 +6,7 @@ namespace ATS.Models
 {
     public class ApplicationViewModel
     {
-        public int JobPostId { get; set; }
+        public string JobPostId { get; set; }
 
         [MaxLength(100, ErrorMessage = "Job title cannot exceed 100 characters.")]
         [RegularExpression(@"^[a-zA-Z0-9\s]*$", ErrorMessage = "Job title can only contain letters, numbers, and spaces.")]

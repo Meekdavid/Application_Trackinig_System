@@ -22,6 +22,39 @@ namespace ATS.Controllers
             _userManager = userManager;
         }
 
+        public IActionResult ViewCandidateDetails(string id)
+        {
+            var application = _context.Applications
+                                      .Where(a => a.CandidateId == id)
+                                      .Include(a => a.JobPost)
+                                      .Include(a => a.Candidate)
+                                      .FirstOrDefault();
+
+            if (application == null)
+            {
+                return View();
+            }
+
+            var viewModel = new CandidateDetailsViewModel
+            {
+                Candidate = application,
+                JobPost = application.JobPost,
+                Application = application
+            };
+
+            return View(viewModel);
+        }
+
+        public async Task<IActionResult> ShortlistedCandidates()
+        {
+            var shortlistedCandidates = _context.Applications
+                                       .Where(a => a.IsShortlisted)
+                                       .Include(a => a.JobPost)
+                                       .Include(a => a.Candidate)
+                                       .ToList();
+            return View(shortlistedCandidates);
+        }
+
         public async Task<IActionResult> Dashboard()
         {
             var jobs = await _context.JobPosts.Include(j => j.CreatedBy).Where(j => !j.IsApproved).ToListAsync();
@@ -38,7 +71,7 @@ namespace ATS.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> ApproveJob(int id)
+        public async Task<IActionResult> ApproveJob(string id)
         {
             var job = await _context.JobPosts.FindAsync(id);
             var existingAssignment = await _context.JobPostRecruiters
@@ -47,6 +80,7 @@ namespace ATS.Controllers
             if(existingAssignment == null)
             {
                 TempData["Error"] = "A recruiter must be assigned";
+                return RedirectToAction(nameof(Dashboard));
             }
 
             if (job != null)
@@ -58,7 +92,7 @@ namespace ATS.Controllers
             return RedirectToAction(nameof(Dashboard));
         }
 
-        public async Task<IActionResult> AssignRecruiter(int id)
+        public async Task<IActionResult> AssignRecruiter(string id)
         {
             var job = await _context.JobPosts.FindAsync(id);
             if (job != null)
@@ -143,22 +177,24 @@ namespace ATS.Controllers
                         {
                             var jobPostRecruiter = new JobPostRecruiter
                             {
+                                JobPostRecruiterId = new Random().Next(00000, 99999).ToString(),
                                 JobPostId = model.JobPostId,
                                 RecruiterId = recruiterId
                             };
-                            _context.JobPostRecruiters.Add(jobPostRecruiter);
+                            await _context.JobPostRecruiters.AddAsync(jobPostRecruiter);
                         }
                     }
                 }
 
-                // Add R2 Questions
-                job.R2Questions = model.R2Questions;
-
-                //var entries = _context.ChangeTracker.Entries();
-                //foreach (var entry in entries)
-                //{
-                //    _logger.LogInformation("Entity: {Entity}, State: {State}", entry.Entity.GetType().Name, entry.State);
-                //}
+                foreach (R2Response r2Model in model.R2Questions)
+                {
+                    var r2Responses = new MainR2Questions
+                    {
+                        JobPostId = model.JobPostId,
+                        Question = r2Model.Question,
+                    };
+                    await _context.JobPostQuestions.AddAsync(r2Responses);
+                }                
 
                 await _context.SaveChangesAsync();
                 await transaction.CommitAsync();

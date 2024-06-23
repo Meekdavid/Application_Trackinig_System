@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ATS.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240620071217_FirstMigration")]
-    partial class FirstMigration
+    [Migration("20240622124609_updateDataTypesh")]
+    partial class updateDataTypesh
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -34,7 +34,6 @@ namespace ATS.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ApplicationId"));
 
                     b.Property<string>("Address")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("CandidateId")
@@ -42,19 +41,15 @@ namespace ATS.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Education")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Email")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Experience")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("FullName")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsScreenedOut")
@@ -63,31 +58,26 @@ namespace ATS.Migrations
                     b.Property<bool>("IsShortlisted")
                         .HasColumnType("bit");
 
-                    b.Property<int>("JobPostId")
-                        .HasColumnType("int");
+                    b.Property<string>("JobPostId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("PhoneNumber")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("R1Response1")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("R1Response2")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("R1Response3")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("R1Response4")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("R1Response5")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ResumeBase64")
@@ -232,18 +222,15 @@ namespace ATS.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Degree")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("EndDate")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("FieldOfStudy")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Institution")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("StartDate")
@@ -269,18 +256,15 @@ namespace ATS.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Company")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("EndDate")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Position")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("StartDate")
@@ -299,18 +283,16 @@ namespace ATS.Migrations
 
             modelBuilder.Entity("ATS.Models.JobPost", b =>
                 {
-                    b.Property<int>("JobPostId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("JobPostId"));
+                    b.Property<string>("JobPostId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ApplicationUserId")
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("CompanyName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
 
                     b.Property<string>("CreatedById")
                         .IsRequired()
@@ -321,79 +303,89 @@ namespace ATS.Migrations
 
                     b.Property<string>("Description")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(2000)
+                        .HasColumnType("nvarchar(2000)");
 
                     b.Property<string>("EducationLevel")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
 
                     b.Property<string>("EmploymentType")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
 
                     b.Property<string>("ExperienceLevel")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
 
                     b.Property<string>("Industry")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
 
                     b.Property<bool>("IsApproved")
                         .HasColumnType("bit");
 
                     b.Property<string>("JobTitle")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
 
                     b.Property<string>("Location")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
 
-                    b.Property<bool>("R1CheckAnswer1")
+                    b.Property<bool?>("R1CheckAnswer1")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("R1CheckAnswer2")
+                    b.Property<bool?>("R1CheckAnswer2")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("R1CheckAnswer3")
+                    b.Property<bool?>("R1CheckAnswer3")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("R1CheckAnswer4")
+                    b.Property<bool?>("R1CheckAnswer4")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("R1CheckAnswer5")
+                    b.Property<bool?>("R1CheckAnswer5")
                         .HasColumnType("bit");
 
                     b.Property<string>("R1CheckQuestion1")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(30)");
 
                     b.Property<string>("R1CheckQuestion2")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(30)");
 
                     b.Property<string>("R1CheckQuestion3")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(30)");
 
                     b.Property<string>("R1CheckQuestion4")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(30)");
 
                     b.Property<string>("R1CheckQuestion5")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(30)");
 
                     b.Property<string>("Requirements")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(1000)
+                        .HasColumnType("nvarchar(1000)");
 
                     b.Property<string>("Responsibilities")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(1000)
+                        .HasColumnType("nvarchar(1000)");
 
-                    b.Property<decimal>("Salary")
+                    b.Property<decimal?>("Salary")
+                        .IsRequired()
                         .HasColumnType("decimal(18,2)");
 
                     b.HasKey("JobPostId");
@@ -407,14 +399,12 @@ namespace ATS.Migrations
 
             modelBuilder.Entity("ATS.Models.JobPostRecruiter", b =>
                 {
-                    b.Property<int>("JobPostRecruiterId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                    b.Property<string>("JobPostRecruiterId")
+                        .HasColumnType("nvarchar(450)");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("JobPostRecruiterId"));
-
-                    b.Property<int>("JobPostId")
-                        .HasColumnType("int");
+                    b.Property<string>("JobPostId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("RecruiterId")
                         .IsRequired()
@@ -437,18 +427,18 @@ namespace ATS.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("ApplicationId")
+                    b.Property<int?>("ApplicationId")
+                        .IsRequired()
                         .HasColumnType("int");
 
-                    b.Property<int>("JobPostId")
-                        .HasColumnType("int");
+                    b.Property<string>("JobPostId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Question")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Response")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");

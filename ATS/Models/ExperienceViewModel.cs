@@ -7,12 +7,12 @@ namespace ATS.Models
     public class ExperienceViewModel
     {
         [Required(ErrorMessage = "Company is required.")]
-        [MaxLength(20, ErrorMessage = "Company name cannot exceed 100 characters.")]
+        [MaxLength(50, ErrorMessage = "Company name cannot exceed 100 characters.")]
         [RegularExpression(@"^[a-zA-Z0-9\s]*$", ErrorMessage = "Company name can only contain letters, numbers, and spaces.")]
         public string Company { get; set; }
 
         [Required(ErrorMessage = "Position is required.")]
-        [MaxLength(20, ErrorMessage = "Position cannot exceed 100 characters.")]
+        [MaxLength(50, ErrorMessage = "Position cannot exceed 100 characters.")]
         [RegularExpression(@"^[a-zA-Z0-9\s]*$", ErrorMessage = "Position can only contain letters, numbers, and spaces.")]
         public string Position { get; set; }
 

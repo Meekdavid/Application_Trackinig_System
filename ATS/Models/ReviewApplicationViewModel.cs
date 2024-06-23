@@ -6,7 +6,7 @@ namespace ATS.Models
     {
         public int ApplicationId { get; set; }
 
-        public List<R2Response> R2Questions { get; set; }
+        public List<MainR2Questions> R2Questions { get; set; }
 
         [Required(ErrorMessage = "Please provide a response for each question.")]
         public List<R2Response> R2Responses { get; set; }
