@@ -89,6 +89,7 @@ namespace ATS.Controllers
                     if (result.Succeeded)
                     {
                         ViewData["Success"] = "Your Profiled has been Registered Successfully";
+                        ViewBag.login = 1;
                         await _userManager.AddToRoleAsync(user, model.Role);
                         await _signInManager.SignInAsync(user, isPersistent: false);
                         return RedirectToAction("Index", "Home");
@@ -127,10 +128,11 @@ namespace ATS.Controllers
                     var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, lockoutOnFailure: false);
                     if (result.Succeeded)
                     {
+                        ViewBag.login = 1;
                         TempData["Success"] = "Login Successful";
                         return RedirectToAction("Index", "Home");
                     }
-
+                    ViewBag.login = 1;
                     TempData["Error"] = "Username or Password Incorrect";
                     ModelState.AddModelError(string.Empty, "Invalid login attempt.");
                 }

@@ -29,8 +29,17 @@ namespace ATS.Controllers
         {
             try
             {
-                TempData["Error"] = null;
-                TempData["Success"] = null;
+                if(ViewBag.login == 1)
+                {
+                    ViewBag.login++;
+                }
+
+                if(ViewBag.login > 1)
+                {
+                    TempData["Error"] = null;
+                    TempData["Success"] = null;
+                }
+                
                 // Retrieve current user
                 var user = await _userManager.GetUserAsync(User);
                 if (user == null)

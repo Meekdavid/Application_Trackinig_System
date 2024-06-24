@@ -168,9 +168,8 @@ namespace ATS.Controllers
                 if (alreadyApplied)
                 {
                     TempData["Error"] = "You have already applied for this job.";
-                    /*return RedirectToAction("Index", "Home")*/;
-                    return RedirectToAction("JobDetails", "Candidate");
-
+                    return RedirectToAction("Index", "Home");
+                    //return RedirectToAction("JobDetails", "Candidate");
 
                 }
 
@@ -214,7 +213,7 @@ namespace ATS.Controllers
                 _context.Applications.Add(application);
                 await _context.SaveChangesAsync();
 
-                return RedirectToAction("JobDetails", "Candidate");
+                return RedirectToAction("Index", "Home");
             }
             catch (Exception ex)
             {
