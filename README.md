@@ -1,4 +1,3 @@
-```markdown
 # Application Tracking System
 
 ## Introduction
@@ -70,4 +69,3 @@ Before you begin, ensure you have met the following requirements:
 6. **Security Headers Policies**
 
 Thank you for using the Application Tracking System. We hope it helps streamline your application management process!
-```
