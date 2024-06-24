@@ -2,7 +2,7 @@
 
 ## Introduction
 
-Welcome to the Application Tracking System, a web application designed to facilitate the registration and management of roles such as coordinators, employers, recruiters, and candidates. 
+Welcome to the Application Tracking System, a web application designed to facilitate the registration and management of Job Posts by coordinators, employers, recruiters, and candidates. 
 
 ### Coordinator Login
 - **Username:** coordinator@gmail.com
@@ -49,9 +49,9 @@ Before you begin, ensure you have met the following requirements:
    ```shell
    dotnet run
    ```
-   The API will be available at:
-   - `http://localhost:5254/Home/index.html` (HTTP)
-   - `https://localhost:7269/Home/index.html` (HTTPS)
+   The application will be available at:
+   - `http://localhost:5254/Home` (HTTP)
+   - `https://localhost:7269/Home` (HTTPS)
 
    Alternatively, load the project/solution in Visual Studio and run.
 
@@ -67,5 +67,15 @@ Before you begin, ensure you have met the following requirements:
 5. **Maximum Length for Input Fields**
    - Prevents Buffer Overflow and Denial-of-Service (DoS) attacks.
 6. **Security Headers Policies**
+
+<details>
+  <summary><b>🛠️&nbsp;&nbsp;More&nbsp;About&nbsp;Project</b></summary>
+  
+### Author  
+  * David Mboko | [Youtube](https://www.youtube.com/@davidmboko6502/featured) | [LinkedIn](https://www.linkedin.com/mwlite/in/david-mboko-25bb9019b) | [Academia](https://aksu.academia.edu/DavidMboko) |
+
+### Resources
+- [Click to View](https://dotnet.microsoft.com/en-us/learn)
+</details>
 
 Thank you for using the Application Tracking System. We hope it helps streamline your application management process!
