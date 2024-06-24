@@ -6,6 +6,20 @@
 
 <!-- Custom CSS for additional styling -->
 <style>
+    .back-button {
+        padding: 10px 20px;
+        font-size: 16px;
+        cursor: pointer;
+        background-color: #007BFF;
+        color: white;
+        border: none;
+        border-radius: 5px;
+    }
+
+        .back-button:hover {
+            background-color: #0056b3;
+        }
+
     .job-details-card {
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         transition: 0.3s;
@@ -64,6 +78,7 @@
                         <i class="fas fa-paper-plane"></i> Apply for this Job
                     </button>*@
                     <a href="@Url.Action("Apply", "Candidate", new { jobPostId = Model.JobPostId })" class="btn btn-primary">Apply</a>
+                    <button class="back-button" onclick="window.history.back(); return false;">Back</button>
                 </div>
             </div>
         </div>

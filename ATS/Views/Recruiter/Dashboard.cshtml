@@ -240,59 +240,62 @@
                     }
                 </div>
 
-                <!-- Hidden fields to pass the rest of the Application model -->
-                <input type="hidden" name="ApplicationId" value="@Model.ApplicationId" />
-                <input type="hidden" name="JobPostId" value="@Model.JobPostId" />
-                <input type="hidden" name="CandidateId" value="@Model.CandidateId" />
-                <input type="hidden" name="ResumeBase64" value="@Model.ResumeBase64" />
-                <input type="hidden" name="R1Response1" value="@Model.R1Response1" />
-                <input type="hidden" name="R1Response2" value="@Model.R1Response2" />
-                <input type="hidden" name="R1Response3" value="@Model.R1Response3" />
-                <input type="hidden" name="R1Response4" value="@Model.R1Response4" />
-                <input type="hidden" name="R1Response5" value="@Model.R1Response5" />
-                <input type="hidden" name="IsShortlisted" value="@Model.IsShortlisted" />
-                <input type="hidden" name="IsScreenedOut" value="@Model.IsScreenedOut" />
-                <input type="hidden" name="FullName" value="@Model.FullName" />
-                <input type="hidden" name="Email" value="@Model.Email" />
-                <input type="hidden" name="PhoneNumber" value="@Model.PhoneNumber" />
-                <input type="hidden" name="Address" value="@Model.Address" />
-                <input type="hidden" name="Education" value="@Model.Education" />
-                <input type="hidden" name="Experience" value="@Model.Experience" />
-
-                @for (int i = 0; i < Model.R2Responses.Count; i++)
+                @if(Model != null)
                 {
-                    <input type="hidden" name="R2Responses[@i].QuestionId" value="@Model.R2Responses[i].Id" />
-                    <input type="hidden" name="R2Responses[@i].Question" value="@Model.R2Responses[i].Question" />
-                    <input type="hidden" name="R2Responses[@i].Response" value="@Model.R2Responses[i].Response" />
-                    <input type="hidden" name="R2Responses[@i].ApplicationId" value="@Model.R2Responses[i].ApplicationId" />
-                    <input type="hidden" name="R2Responses[@i].JobPostId" value="@Model.R2Responses[i].JobPostId" />
-                }
+                    <!-- Hidden fields to pass the rest of the Application model -->
+                    <input type="hidden" name="ApplicationId" value="@Model.ApplicationId" />
+                    <input type="hidden" name="JobPostId" value="@Model.JobPostId" />
+                    <input type="hidden" name="CandidateId" value="@Model.CandidateId" />
+                    <input type="hidden" name="ResumeBase64" value="@Model.ResumeBase64" />
+                    <input type="hidden" name="R1Response1" value="@Model.R1Response1" />
+                    <input type="hidden" name="R1Response2" value="@Model.R1Response2" />
+                    <input type="hidden" name="R1Response3" value="@Model.R1Response3" />
+                    <input type="hidden" name="R1Response4" value="@Model.R1Response4" />
+                    <input type="hidden" name="R1Response5" value="@Model.R1Response5" />
+                    <input type="hidden" name="IsShortlisted" value="@Model.IsShortlisted" />
+                    <input type="hidden" name="IsScreenedOut" value="@Model.IsScreenedOut" />
+                    <input type="hidden" name="FullName" value="@Model.FullName" />
+                    <input type="hidden" name="Email" value="@Model.Email" />
+                    <input type="hidden" name="PhoneNumber" value="@Model.PhoneNumber" />
+                    <input type="hidden" name="Address" value="@Model.Address" />
+                    <input type="hidden" name="Education" value="@Model.Education" />
+                    <input type="hidden" name="Experience" value="@Model.Experience" />
 
-                <input type="hidden" name="JobPost.JobPostId" value="@Model.JobPost.JobPostId" />
-                <input type="hidden" name="JobPost.JobTitle" value="@Model.JobPost.JobTitle" />
-                <input type="hidden" name="JobPost.Location" value="@Model.JobPost.Location" />
-                <input type="hidden" name="JobPost.Salary" value="@Model.JobPost.Salary" />
-                <input type="hidden" name="JobPost.Responsibilities" value="@Model.JobPost.Responsibilities" />
-                <input type="hidden" name="JobPost.Description" value="@Model.JobPost.Description" />
-                <input type="hidden" name="JobPost.Requirements" value="@Model.JobPost.Requirements" />
-                <input type="hidden" name="JobPost.EmploymentType" value="@Model.JobPost.EmploymentType" />
-                <input type="hidden" name="JobPost.CompanyName" value="@Model.JobPost.CompanyName" />
-                <input type="hidden" name="JobPost.Industry" value="@Model.JobPost.Industry" />
-                <input type="hidden" name="JobPost.ExperienceLevel" value="@Model.JobPost.ExperienceLevel" />
-                <input type="hidden" name="JobPost.EducationLevel" value="@Model.JobPost.EducationLevel" />
-                <input type="hidden" name="JobPost.R1CheckQuestion1" value="@Model.JobPost.R1CheckQuestion1" />
-                <input type="hidden" name="JobPost.R1CheckAnswer1" value="@Model.JobPost.R1CheckAnswer1" />
-                <input type="hidden" name="JobPost.R1CheckQuestion2" value="@Model.JobPost.R1CheckQuestion2" />
-                <input type="hidden" name="JobPost.R1CheckAnswer2" value="@Model.JobPost.R1CheckAnswer2" />
-                <input type="hidden" name="JobPost.R1CheckQuestion3" value="@Model.JobPost.R1CheckQuestion3" />
-                <input type="hidden" name="JobPost.R1CheckAnswer3" value="@Model.JobPost.R1CheckAnswer3" />
-                <input type="hidden" name="JobPost.R1CheckQuestion4" value="@Model.JobPost.R1CheckQuestion4" />
-                <input type="hidden" name="JobPost.R1CheckAnswer4" value="@Model.JobPost.R1CheckAnswer4" />
-                <input type="hidden" name="JobPost.R1CheckQuestion5" value="@Model.JobPost.R1CheckQuestion5" />
-                <input type="hidden" name="JobPost.R1CheckAnswer5" value="@Model.JobPost.R1CheckAnswer5" />
-                <input type="hidden" name="JobPost.IsApproved" value="@Model.JobPost.IsApproved" />
-                <input type="hidden" name="JobPost.DateCreated" value="@Model.JobPost.DateCreated" />
-                <input type="hidden" name="JobPost.CreatedById" value="@Model.JobPost.CreatedById" />
+                    @for (int i = 0; i < Model.R2Responses.Count; i++)
+                    {
+                        <input type="hidden" name="R2Responses[@i].QuestionId" value="@Model.R2Responses[i].Id" />
+                        <input type="hidden" name="R2Responses[@i].Question" value="@Model.R2Responses[i].Question" />
+                        <input type="hidden" name="R2Responses[@i].Response" value="@Model.R2Responses[i].Response" />
+                        <input type="hidden" name="R2Responses[@i].ApplicationId" value="@Model.R2Responses[i].ApplicationId" />
+                        <input type="hidden" name="R2Responses[@i].JobPostId" value="@Model.R2Responses[i].JobPostId" />
+                    }
+
+                    <input type="hidden" name="JobPost.JobPostId" value="@Model.JobPost.JobPostId" />
+                    <input type="hidden" name="JobPost.JobTitle" value="@Model.JobPost.JobTitle" />
+                    <input type="hidden" name="JobPost.Location" value="@Model.JobPost.Location" />
+                    <input type="hidden" name="JobPost.Salary" value="@Model.JobPost.Salary" />
+                    <input type="hidden" name="JobPost.Responsibilities" value="@Model.JobPost.Responsibilities" />
+                    <input type="hidden" name="JobPost.Description" value="@Model.JobPost.Description" />
+                    <input type="hidden" name="JobPost.Requirements" value="@Model.JobPost.Requirements" />
+                    <input type="hidden" name="JobPost.EmploymentType" value="@Model.JobPost.EmploymentType" />
+                    <input type="hidden" name="JobPost.CompanyName" value="@Model.JobPost.CompanyName" />
+                    <input type="hidden" name="JobPost.Industry" value="@Model.JobPost.Industry" />
+                    <input type="hidden" name="JobPost.ExperienceLevel" value="@Model.JobPost.ExperienceLevel" />
+                    <input type="hidden" name="JobPost.EducationLevel" value="@Model.JobPost.EducationLevel" />
+                    <input type="hidden" name="JobPost.R1CheckQuestion1" value="@Model.JobPost.R1CheckQuestion1" />
+                    <input type="hidden" name="JobPost.R1CheckAnswer1" value="@Model.JobPost.R1CheckAnswer1" />
+                    <input type="hidden" name="JobPost.R1CheckQuestion2" value="@Model.JobPost.R1CheckQuestion2" />
+                    <input type="hidden" name="JobPost.R1CheckAnswer2" value="@Model.JobPost.R1CheckAnswer2" />
+                    <input type="hidden" name="JobPost.R1CheckQuestion3" value="@Model.JobPost.R1CheckQuestion3" />
+                    <input type="hidden" name="JobPost.R1CheckAnswer3" value="@Model.JobPost.R1CheckAnswer3" />
+                    <input type="hidden" name="JobPost.R1CheckQuestion4" value="@Model.JobPost.R1CheckQuestion4" />
+                    <input type="hidden" name="JobPost.R1CheckAnswer4" value="@Model.JobPost.R1CheckAnswer4" />
+                    <input type="hidden" name="JobPost.R1CheckQuestion5" value="@Model.JobPost.R1CheckQuestion5" />
+                    <input type="hidden" name="JobPost.R1CheckAnswer5" value="@Model.JobPost.R1CheckAnswer5" />
+                    <input type="hidden" name="JobPost.IsApproved" value="@Model.JobPost.IsApproved" />
+                    <input type="hidden" name="JobPost.DateCreated" value="@Model.JobPost.DateCreated" />
+                    <input type="hidden" name="JobPost.CreatedById" value="@Model.JobPost.CreatedById" />
+                }
 
             </form>
         </div>

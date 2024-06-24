@@ -1,5 +1,6 @@
 ﻿using ATS.Database;
 using ATS.Helpers;
+using ATS.Helpers.Attributes;
 using ATS.Models;
 using ATS.ViewModels;
 using Microsoft.AspNetCore.Authorization;
@@ -16,7 +17,7 @@ using System.Threading.Tasks;
 
 namespace ATS.Controllers
 {
-    [Authorize]
+    [CustomAuthorize("Coordinator,Employer")]
     public class JobPostController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -29,100 +30,140 @@ namespace ATS.Controllers
         }
 
 
-        [Authorize(Roles = "Coordinator")]
         public async Task<IActionResult> Dashboard()
         {
-            var jobs = await _context.JobPosts.Include(j => j.CreatedBy).Where(j => !j.IsApproved).ToListAsync();
-            return View(jobs);
+            try
+            {
+                var jobs = await _context.JobPosts.Include(j => j.CreatedBy).Where(j => !j.IsApproved).ToListAsync();
+                return View(jobs);
+            }
+            catch (Exception ex)
+            {
+                TempData["Error"] = "An Error Occured.";
+                @ViewBag.ErrorMessage = ex.Message;
+                @ViewBag.StackTrace = ex.StackTrace;
+                return RedirectToAction("Error", "Home");
+            }
+            
         }
 
         [HttpPost]
-        [Authorize(Roles = "Coordinator")]
         public async Task<IActionResult> ApproveJob(int id)
         {
-            var job = await _context.JobPosts.FindAsync(id);
-            if (job != null)
+            try
             {
-                job.IsApproved = true;
-                await _context.SaveChangesAsync();
-                TempData["Success"] = "Job approved successfully.";
+                var job = await _context.JobPosts.FindAsync(id);
+                if (job != null)
+                {
+                    job.IsApproved = true;
+                    await _context.SaveChangesAsync();
+                    TempData["Success"] = "Job approved successfully.";
+                }
+                return RedirectToAction(nameof(Dashboard));
             }
-            return RedirectToAction(nameof(Dashboard));
+            catch (Exception ex)
+            {
+                TempData["Error"] = "An Error Occured.";
+                @ViewBag.ErrorMessage = ex.Message;
+                @ViewBag.StackTrace = ex.StackTrace;
+                return RedirectToAction("Error", "Home");
+            }
+            
         }
 
-        [Authorize(Roles = "Coordinator")]
         public async Task<IActionResult> AssignRecruiter(int jobId)
         {
-            var job = await _context.JobPosts.FindAsync(jobId);
-            if (job == null)
+            try
             {
-                return RedirectToAction("");
+                var job = await _context.JobPosts.FindAsync(jobId);
+                if (job == null)
+                {
+                    return RedirectToAction("");
+                }
+
+                var recruiters = await _userManager.GetUsersInRoleAsync("Recruiter");
+
+                var recruiterList = recruiters.Select(r => new SelectListItem
+                {
+                    Value = r.Id,
+                    Text = r.FullName
+                }).ToList();
+
+                var model = new AssignRecruiterViewModel
+                {
+                    JobPostId = job.JobPostId,
+                    JobTitle = job.JobTitle,
+                    Recruiters = new MultiSelectList(recruiterList, "Value", "Text")
+                };
+
+                return View(model);
             }
-
-            var recruiters = await _userManager.GetUsersInRoleAsync("Recruiter");
-
-            var recruiterList = recruiters.Select(r => new SelectListItem
+            catch (Exception ex)
             {
-                Value = r.Id,
-                Text = r.FullName
-            }).ToList();
-
-            var model = new AssignRecruiterViewModel
-            {
-                JobPostId = job.JobPostId,
-                JobTitle = job.JobTitle,
-                Recruiters = new MultiSelectList(recruiterList, "Value", "Text")
-            };
-
-            return View(model);
+                TempData["Error"] = "An Error Occured.";
+                @ViewBag.ErrorMessage = ex.Message;
+                @ViewBag.StackTrace = ex.StackTrace;
+                return RedirectToAction("Error", "Home");
+            }
+            
         }
 
         [HttpPost]
-        [Authorize(Roles = "Coordinator")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> AssignRecruiter(AssignRecruiterViewModel model)
         {
-            if (ModelState.IsValid)
+            try
             {
-                var job = await _context.JobPosts.FindAsync(model.JobPostId);
-                if (job != null)
+                if (ModelState.IsValid)
                 {
-                    foreach (var recruiterId in model.SelectedRecruiterIds)
+                    var job = await _context.JobPosts.FindAsync(model.JobPostId);
+                    if (job != null)
                     {
-                        var recruiter = await _userManager.FindByIdAsync(recruiterId);
-                        if (recruiter != null)
+                        foreach (var recruiterId in model.SelectedRecruiterIds)
                         {
-                            var existingAssignment = await _context.JobPostRecruiters
-                                .FirstOrDefaultAsync(jr => jr.JobPostId == model.JobPostId && jr.RecruiterId == recruiterId);
-
-                            if (existingAssignment == null)
+                            var recruiter = await _userManager.FindByIdAsync(recruiterId);
+                            if (recruiter != null)
                             {
-                                var jobPostRecruiter = new JobPostRecruiter
+                                var existingAssignment = await _context.JobPostRecruiters
+                                    .FirstOrDefaultAsync(jr => jr.JobPostId == model.JobPostId && jr.RecruiterId == recruiterId);
+
+                                if (existingAssignment == null)
                                 {
-                                    JobPostId = model.JobPostId,
-                                    RecruiterId = recruiterId
-                                };
-                                _context.JobPostRecruiters.Add(jobPostRecruiter);
+                                    var jobPostRecruiter = new JobPostRecruiter
+                                    {
+                                        JobPostId = model.JobPostId,
+                                        RecruiterId = recruiterId
+                                    };
+                                    _context.JobPostRecruiters.Add(jobPostRecruiter);
+                                }
                             }
                         }
+                        await _context.SaveChangesAsync();
+                        TempData["Success"] = "Recruiter assigned successfully.";
+                        return RedirectToAction(nameof(Dashboard));
                     }
-                    await _context.SaveChangesAsync();
-                    TempData["Success"] = "Recruiter assigned successfully.";
-                    return RedirectToAction(nameof(Dashboard));
+                    ModelState.AddModelError("", "Job post not found.");
                 }
-                ModelState.AddModelError("", "Job post not found.");
+
+                var recruiters = await _userManager.GetUsersInRoleAsync("Recruiter");
+                var recruiterList = recruiters.Select(r => new SelectListItem
+                {
+                    Value = r.Id,
+                    Text = r.FullName
+                }).ToList();
+
+                model.Recruiters = new MultiSelectList(recruiterList, "Value", "Text");
+                TempData["Error"] = "Unable to create Job, Contact Support";
+                return View(model);
             }
-
-            var recruiters = await _userManager.GetUsersInRoleAsync("Recruiter");
-            var recruiterList = recruiters.Select(r => new SelectListItem
+            catch (Exception ex)
             {
-                Value = r.Id,
-                Text = r.FullName
-            }).ToList();
-
-            model.Recruiters = new MultiSelectList(recruiterList, "Value", "Text");
-            TempData["Error"] = "Unable to create Job, Contact Support";
-            return View(model);
+                TempData["Error"] = "An Error Occured.";
+                @ViewBag.ErrorMessage = ex.Message;
+                @ViewBag.StackTrace = ex.StackTrace;
+                return RedirectToAction("Error", "Home");
+            }
+            
         }
 
         //[Authorize(Roles = "Candidate")]

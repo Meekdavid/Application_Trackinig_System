@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using ATS.Helpers.Attributes;
 
 namespace ATS.Controllers
 {
@@ -20,49 +21,63 @@ namespace ATS.Controllers
             _configuration = configuration;
         }
 
-        [Authorize(Roles = "Candidate")]
+        //[Authorize(Roles = "Candidate")]
+        [CustomAuthorize("Candidate")]
         public async Task<IActionResult> Dashboard()
         {
-            // Retrieve current user
-            var user = await _userManager.GetUserAsync(User);
-            if (user == null)
+            try
             {
-                return View();
+                // Retrieve current user
+                var user = await _userManager.GetUserAsync(User);
+                if (user == null)
+                {
+                    return View();
+                }
+
+                // Retrieve profile picture from ApplicationUser's base64 stored image
+                var profilePictureBase64 = user.ProfilePictureBase64;
+                var profilePictureUrl = $"data:image/jpeg;base64,{profilePictureBase64}"; // Construct data URL
+                user.ProfilePictureBase64 = profilePictureUrl;
+                user.FullName = await GetSubstringBeforeFirstSpace(user.FullName);
+
+                // Get available jobs
+                var availableJobs = await _context.JobPosts.Include(j => j.CreatedBy).Where(j => j.IsApproved).ToListAsync();
+
+                // Prepare view model
+                var viewModel = new CandidateDashboardViewModel
+                {
+                    AvailableJobs = availableJobs,
+                    Profile = user
+                };
+
+                return View(viewModel);
             }
-
-            // Retrieve profile picture from ApplicationUser's base64 stored image
-            var profilePictureBase64 = user.ProfilePictureBase64;
-            var profilePictureUrl = $"data:image/jpeg;base64,{profilePictureBase64}"; // Construct data URL
-            user.ProfilePictureBase64 = profilePictureUrl;
-            user.FullName = await GetSubstringBeforeFirstSpace(user.FullName);
-
-            // Get available jobs
-            var availableJobs = await _context.JobPosts.Include(j => j.CreatedBy).Where(j => j.IsApproved).ToListAsync();
-
-            // Prepare view model
-            var viewModel = new CandidateDashboardViewModel
+            catch (Exception ex)
             {
-                AvailableJobs = availableJobs,
-                Profile = user
-            };
-
-            return View(viewModel);
+                TempData["Error"] = "An Error Occured.";
+                @ViewBag.ErrorMessage = ex.Message;
+                @ViewBag.StackTrace = ex.StackTrace;
+                return RedirectToAction("Error", "Home");
+            }
+            
         }
 
-        [Authorize(Roles = "Candidate")]
+        [CustomAuthorize("Candidate")]
         public async Task<IActionResult> Apply(string jobPostId)
         {
-            var jobPost = _context.JobPosts.Find(jobPostId);
-            if (jobPost == null)
+            try
             {
-                return View();
-            }
+                var jobPost = _context.JobPosts.Find(jobPostId);
+                if (jobPost == null)
+                {
+                    return View();
+                }
 
-            var viewModel = new ApplicationViewModel
-            {
-                JobPostId = jobPost.JobPostId,
-                JobTitle = jobPost.JobTitle,
-                R1CheckQuestions = new List<string>
+                var viewModel = new ApplicationViewModel
+                {
+                    JobPostId = jobPost.JobPostId,
+                    JobTitle = jobPost.JobTitle,
+                    R1CheckQuestions = new List<string>
                 {
                     jobPost.R1CheckQuestion1,
                     jobPost.R1CheckQuestion2,
@@ -70,29 +85,41 @@ namespace ATS.Controllers
                     jobPost.R1CheckQuestion4,
                     jobPost.R1CheckQuestion5
                 }
-            };
+                };
 
-            viewModel.MatchingJobs = await _context.JobPosts.Where(j => j.JobTitle == jobPost.JobTitle
-            || j.Industry == jobPost.Industry || j.CompanyName == jobPost.CompanyName).ToListAsync();
+                viewModel.MatchingJobs = await _context.JobPosts.Where(j => j.JobTitle == jobPost.JobTitle
+                || j.Industry == jobPost.Industry || j.CompanyName == jobPost.CompanyName).ToListAsync();
 
-            return View(viewModel);
+                return View(viewModel);
+            }
+            catch (Exception ex)
+            {
+                TempData["Error"] = "An Error Occured.";
+                @ViewBag.ErrorMessage = ex.Message;
+                @ViewBag.StackTrace = ex.StackTrace;
+                return RedirectToAction("Error", "Home");
+            }
+            
         }
 
         public async Task<IActionResult> JobDetails(string id)
         {
-            var jobPost = _context.JobPosts.Find(id);
-            if (jobPost == null)
+            try
             {
-                return View();
-            }
+                var jobPost = _context.JobPosts.Find(id);
+                if (jobPost == null)
+                {
+                    TempData["Error"] = "No Job Posts Found";
+                    return View();
+                }
 
 
-            var viewModel = new ApplicationViewModel
-            {
-                thisJob = jobPost,
-                JobPostId = jobPost.JobPostId,
-                JobTitle = jobPost.JobTitle,
-                R1CheckQuestions = new List<string>
+                var viewModel = new ApplicationViewModel
+                {
+                    thisJob = jobPost,
+                    JobPostId = jobPost.JobPostId,
+                    JobTitle = jobPost.JobTitle,
+                    R1CheckQuestions = new List<string>
                 {
                     jobPost.R1CheckQuestion1,
                     jobPost.R1CheckQuestion2,
@@ -100,96 +127,103 @@ namespace ATS.Controllers
                     jobPost.R1CheckQuestion4,
                     jobPost.R1CheckQuestion5
                 }
-            };
+                };
 
-            viewModel.MatchingJobs = await _context.JobPosts.Where(j => j.JobTitle == jobPost.JobTitle
-            || j.Industry == jobPost.Industry || j.CompanyName == jobPost.CompanyName).ToListAsync();
+                viewModel.MatchingJobs = await _context.JobPosts.Where(j => j.JobTitle == jobPost.JobTitle
+                || j.Industry == jobPost.Industry || j.CompanyName == jobPost.CompanyName).ToListAsync();
 
-            return View(jobPost);
+                return View(jobPost);
+            }
+            catch (Exception ex)
+            {
+                TempData["Error"] = "An Error Occured.";
+                @ViewBag.ErrorMessage = ex.Message;
+                @ViewBag.StackTrace = ex.StackTrace;
+                return RedirectToAction("Error", "Home");
+            }
+            
         }
 
         [HttpPost]
-        [Authorize(Roles = "Candidate")]
+        [CustomAuthorize("Candidate")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Apply(ApplicationViewModel model)
         {
-            // Retrieve Job Details
-            var jobPost = _context.JobPosts.Find(model.JobPostId);
-            if (jobPost == null)
+            try
             {
-                TempData["Error"] = "Job not found.";
-                return RedirectToAction("Dashboard", "Candidate");
-            }
-
-            var user = await _userManager.GetUserAsync(User);
-
-            // Check if the candidate has already applied for this job
-            bool alreadyApplied = _context.Applications
-                                          .Any(a => a.JobPostId == model.JobPostId && a.CandidateId == user.Id);
-
-            if (alreadyApplied)
-            {
-                TempData["Error"] = "You have already applied for this job.";
-                return RedirectToAction("Index", "Home");
-            }
-
-            // Convert the uploaded file to a base64 string
-            string resumeBase64 = null;
-            if (model.Resume != null && model.Resume.Length > 0)
-            {
-                using (var ms = new MemoryStream())
+                // Retrieve Job Details
+                var jobPost = _context.JobPosts.Find(model.JobPostId);
+                if (jobPost == null)
                 {
-                    await model.Resume.CopyToAsync(ms);
-                    resumeBase64 = Convert.ToBase64String(ms.ToArray());
+                    TempData["Error"] = "Job not found.";
+                    return RedirectToAction("Dashboard", "Candidate");
                 }
-            }
 
-            var application = new Application
-            {
-                JobPostId = model.JobPostId,
-                CandidateId = user.Id,
-                ResumeBase64 = resumeBase64,
-                R1Response1 = Request.Form["R1Response1"].FirstOrDefault(),
-                R1Response2 = Request.Form["R1Response2"].FirstOrDefault(),
-                R1Response3 = Request.Form["R1Response3"].FirstOrDefault(),
-                R1Response4 = Request.Form["R1Response4"].FirstOrDefault(),
-                R1Response5 = Request.Form["R1Response5"].FirstOrDefault(),
-                IsShortlisted = false
-            };
+                var user = await _userManager.GetUserAsync(User);
 
-            // Implement R1 Check to screen candidates
-            bool goodCandidate = await CompareR1Responses(application, jobPost);
-            if (!goodCandidate)
-            {
-                TempData["Error"] = "You are not qualified for this position.";
-                application.IsScreenedOut = true;
+                // Check if the candidate has already applied for this job
+                bool alreadyApplied = _context.Applications
+                                              .Any(a => a.JobPostId == model.JobPostId && a.CandidateId == user.Id);
+
+                if (alreadyApplied)
+                {
+                    TempData["Error"] = "You have already applied for this job.";
+                    /*return RedirectToAction("Index", "Home")*/;
+                    return RedirectToAction("JobDetails", "Candidate");
+
+
+                }
+
+                // Convert the uploaded file to a base64 string
+                string resumeBase64 = null;
+                if (model.Resume != null && model.Resume.Length > 0)
+                {
+                    using (var ms = new MemoryStream())
+                    {
+                        await model.Resume.CopyToAsync(ms);
+                        resumeBase64 = Convert.ToBase64String(ms.ToArray());
+                    }
+                }
+
+                var application = new Application
+                {
+                    JobPostId = model.JobPostId,
+                    CandidateId = user.Id,
+                    ResumeBase64 = resumeBase64,
+                    R1Response1 = Request.Form["R1Response1"].FirstOrDefault(),
+                    R1Response2 = Request.Form["R1Response2"].FirstOrDefault(),
+                    R1Response3 = Request.Form["R1Response3"].FirstOrDefault(),
+                    R1Response4 = Request.Form["R1Response4"].FirstOrDefault(),
+                    R1Response5 = Request.Form["R1Response5"].FirstOrDefault(),
+                    IsShortlisted = false
+                };
+
+                // Implement R1 Check to screen candidates
+                bool goodCandidate = await CompareR1Responses(application, jobPost);
+                if (!goodCandidate)
+                {
+                    TempData["Error"] = "You are not qualified for this position.";
+                    application.IsScreenedOut = true;
+                    _context.Applications.Add(application);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction("Apply", new { jobPostId = model.JobPostId });
+                }
+
+                TempData["Success"] = "Application submitted successfully.";
+                application.IsScreenedOut = !goodCandidate;
                 _context.Applications.Add(application);
                 await _context.SaveChangesAsync();
-                return RedirectToAction("Apply", new { jobPostId = model.JobPostId });
+
+                return RedirectToAction("JobDetails", "Candidate");
             }
-
-            TempData["Success"] = "Application submitted successfully.";
-            application.IsScreenedOut = !goodCandidate;
-            _context.Applications.Add(application);
-            await _context.SaveChangesAsync();
-
-            return RedirectToAction("Dashboard", "Candidate");
-
-            // If the model state is invalid, reload the job post details to repopulate the R1 questions                     
-            if (jobPost != null)
+            catch (Exception ex)
             {
-                model.R1CheckQuestions = new List<string>
-        {
-            jobPost.R1CheckQuestion1,
-            jobPost.R1CheckQuestion2,
-            jobPost.R1CheckQuestion3,
-            jobPost.R1CheckQuestion4,
-            jobPost.R1CheckQuestion5
-        };
+                TempData["Error"] = "An Error Occured.";
+                @ViewBag.ErrorMessage = ex.Message;
+                @ViewBag.StackTrace = ex.StackTrace;
+                return RedirectToAction("Error", "Home");
             }
-
-            TempData["Error"] = "Some input fields are not valid";
-            return View(model);
+            
         }
 
 

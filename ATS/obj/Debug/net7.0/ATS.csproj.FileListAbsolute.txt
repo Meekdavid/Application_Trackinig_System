@@ -156,3 +156,4 @@ C:\Users\David Mboko\Desktop\Git\Application_Trackinig_System\ATS\obj\Debug\net7
 C:\Users\David Mboko\Desktop\Git\Application_Trackinig_System\ATS\obj\Debug\net7.0\ATS.pdb
 C:\Users\David Mboko\Desktop\Git\Application_Trackinig_System\ATS\obj\Debug\net7.0\ATS.genruntimeconfig.cache
 C:\Users\David Mboko\Desktop\Git\Application_Trackinig_System\ATS\obj\Debug\net7.0\ref\ATS.dll
+C:\Users\David Mboko\Desktop\Git\Application_Trackinig_System\ATS\bin\Debug\net7.0\Newtonsoft.Json.dll

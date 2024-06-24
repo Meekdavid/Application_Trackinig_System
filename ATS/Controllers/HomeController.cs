@@ -21,37 +21,63 @@ namespace ATS.Controllers
             _userManager = userManager;
         }
 
+        public IActionResult AccessDenied()
+        {
+            return View();
+        }
         public async Task<IActionResult> Index()
         {
-            TempData["Error"] = null;
-            TempData["Success"] = null;
-            // Retrieve current user
-            var user = await _userManager.GetUserAsync(User);
-            if (user == null)
+            try
             {
-                return View();
+                TempData["Error"] = null;
+                TempData["Success"] = null;
+                // Retrieve current user
+                var user = await _userManager.GetUserAsync(User);
+                if (user == null)
+                {
+                    return View();
+                }
+
+                // Retrieve profile picture from ApplicationUser's base64 stored image
+                var profilePictureBase64 = user.ProfilePictureBase64;
+                var profilePictureUrl = $"data:image/jpeg;base64,{profilePictureBase64}"; // Construct data URL
+                user.ProfilePictureBase64 = profilePictureUrl;
+
+                // Get available jobs
+                var availableJobs = await _context.JobPosts.Include(j => j.CreatedBy).Where(j => j.IsApproved).ToListAsync();
+
+                // Prepare view model
+                var viewModel = new CandidateDashboardViewModel
+                {
+                    AvailableJobs = availableJobs,
+                    Profile = user
+                };
+                return View(viewModel);
             }
-
-            // Retrieve profile picture from ApplicationUser's base64 stored image
-            var profilePictureBase64 = user.ProfilePictureBase64;
-            var profilePictureUrl = $"data:image/jpeg;base64,{profilePictureBase64}"; // Construct data URL
-            user.ProfilePictureBase64 = profilePictureUrl;
-
-            // Get available jobs
-            var availableJobs = await _context.JobPosts.Include(j => j.CreatedBy).Where(j => j.IsApproved).ToListAsync();
-
-            // Prepare view model
-            var viewModel = new CandidateDashboardViewModel
+            catch (Exception ex)
             {
-                AvailableJobs = availableJobs,
-                Profile = user
-            };
-            return View(viewModel);
+                TempData["Error"] = "An Error Occured.";
+                @ViewBag.ErrorMessage = ex.Message;
+                @ViewBag.StackTrace = ex.StackTrace;
+                return RedirectToAction("Error", "Home");
+            }
+            
         }
 
         public IActionResult Privacy()
         {
-            return View();
+            try
+            {
+                return View();
+            }
+            catch (Exception ex)
+            {
+                TempData["Error"] = "An Error Occured.";
+                @ViewBag.ErrorMessage = ex.Message;
+                @ViewBag.StackTrace = ex.StackTrace;
+                return RedirectToAction("Error", "Home");
+            }
+            
         }
 
         //[ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
@@ -63,12 +89,23 @@ namespace ATS.Controllers
         [Route("Error")]
         public IActionResult Error()
         {
-            var exceptionHandlerPathFeature = HttpContext.Features.Get<IExceptionHandlerPathFeature>();
+            try
+            {
+                var exceptionHandlerPathFeature = HttpContext.Features.Get<IExceptionHandlerPathFeature>();
 
-            ViewBag.ErrorMessage = exceptionHandlerPathFeature?.Error.Message;
-            ViewBag.StackTrace = exceptionHandlerPathFeature?.Error.StackTrace;
+                ViewBag.ErrorMessage = (ViewBag.ErrorMessage == null) ? exceptionHandlerPathFeature?.Error.Message : ViewBag.ErrorMessage;
+                ViewBag.StackTrace = ViewBag.StackTrace == null ? exceptionHandlerPathFeature?.Error.StackTrace : ViewBag.StackTrace;
 
-            return View();
+                return View();
+            }
+            catch (Exception ex)
+            {
+                TempData["Error"] = "An Error Occured.";
+                @ViewBag.ErrorMessage = ex.Message;
+                @ViewBag.StackTrace = ex.StackTrace;
+                return RedirectToAction("Error", "Home");
+            }
+            
         }
     }
 }

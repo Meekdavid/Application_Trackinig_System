@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "PBN7rv+AroHvcnm6B1HmXeGQF83qvMYybnnXRTf8dJw55XBFGXzTnqONP4COd1zUz8S4XzMHUHK5SPlMGNG/XQ==",
+  "dgSpecHash": "URAmCnhtNBGNKwe7RhYo8FAj3WMeRo0+Xwkk6BrOehPQVyRA4IzuWoTiFX+CEEqTdiCEGheXeHpSDB4O/+b8PQ==",
   "success": true,
   "projectFilePath": "C:\\Users\\David Mboko\\Desktop\\Git\\Application_Trackinig_System\\ATS\\ATS.csproj",
   "expectedPackageFiles": [
@@ -47,6 +47,7 @@
     "C:\\Users\\David Mboko\\.nuget\\packages\\microsoft.win32.registry\\5.0.0\\microsoft.win32.registry.5.0.0.nupkg.sha512",
     "C:\\Users\\David Mboko\\.nuget\\packages\\microsoft.win32.systemevents\\5.0.0\\microsoft.win32.systemevents.5.0.0.nupkg.sha512",
     "C:\\Users\\David Mboko\\.nuget\\packages\\mono.texttemplating\\2.2.1\\mono.texttemplating.2.2.1.nupkg.sha512",
+    "C:\\Users\\David Mboko\\.nuget\\packages\\newtonsoft.json\\13.0.3\\newtonsoft.json.13.0.3.nupkg.sha512",
     "C:\\Users\\David Mboko\\.nuget\\packages\\serilog\\4.0.0\\serilog.4.0.0.nupkg.sha512",
     "C:\\Users\\David Mboko\\.nuget\\packages\\serilog.sinks.console\\6.0.0\\serilog.sinks.console.6.0.0.nupkg.sha512",
     "C:\\Users\\David Mboko\\.nuget\\packages\\serilog.sinks.file\\5.0.0\\serilog.sinks.file.5.0.0.nupkg.sha512",
