@@ -15,7 +15,7 @@ Welcome to the Application Tracking System, a web application designed to facili
 
 ## How to Execute the Application
 
-The application is hosted on [Lagoon](https://102.210.194.26/Application_Trackinig_System/index.html).
+The application is hosted on [ATS](https://102.210.194.26/Application_Trackinig_System/Home/index.html).
 
 ### Execute Locally
 
@@ -50,8 +50,8 @@ Before you begin, ensure you have met the following requirements:
    dotnet run
    ```
    The API will be available at:
-   - `http://localhost:5254/index.html` (HTTP)
-   - `https://localhost:7269/index.html` (HTTPS)
+   - `http://localhost:5254/Home/index.html` (HTTP)
+   - `https://localhost:7269/Home/index.html` (HTTPS)
 
    Alternatively, load the project/solution in Visual Studio and run.
 
