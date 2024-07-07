@@ -14,7 +14,7 @@ Welcome to the Application Tracking System, a web application designed to facili
 - **Database:** Microsoft SQL (SQL Database)
 
 ## How to Execute the Application
-
+The application is hosted on [ATS](https://102.210.194.25/application_trackinig_system/).
 
 ### Execute Locally
 
